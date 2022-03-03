@@ -2,46 +2,45 @@
 <html>
 
 <body>
-    
-<!DOCTYPE html>
-<html>
-<body>
-<?php
-$day_names = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31);
-echo "<select>";
+    <title>loop</title>
 
-foreach($day_names as $day)
-{
-echo "<option>".$day."</option>";
-}
-echo "</select>";
-?>
+    <!--day-->
+    <?php
+    $selected_day = date('d'); //current day
 
-<?php
-$month_names = array("January","February","March","April","May","June","July","August","September","October","November","December");
-echo "<select>";
+    echo '<select id="day" name="day">' . "\n";
+    for ($i_day = 1; $i_day <= 31; $i_day++) {
+        $selected = ($selected_day == $i_day ? ' selected' : '');
+        echo '<option value="' . $i_day . '"' . $selected . '>' . $i_day . '</option>' . "\n";
+    }
+    echo '</select>' . "\n";
+    ?>
 
-foreach($month_names as $month)
-{
-echo "<option>".$month."</option>";
-}
-echo "</select>";
-?>
+    <!--month-->
+    <?php
+    $selected_month = date('m'); //current month
 
-<?php
-$year_names = array(1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022);
-echo "<select>";
+    echo '<select id="month" name="month">' . "\n";
+    for ($i_month = 1; $i_month <= 12; $i_month++) {
+        $selected = ($selected_month == $i_month ? ' selected' : '');
+        echo '<option value="' . $i_month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $i_month)) . '</option>' . "\n";
+    }
+    echo '</select>' . "\n";
+    ?>
 
-foreach($year_names as $year)
-{
-echo "<option>".$year."</option>";
-}
-echo "</select>";
-?>
+    <!--year-->
+    <?php
+    $year_start  = 2022;
+    $year_end = date('Y'); // current Year
+    $user_selected_year = 2022;
 
-</body>
-</html>
-
+    echo '<select id="year" name="year">' . "\n";
+    for ($i_year = $year_start; $i_year >= 1990; $i_year--) {
+        $selected = ($user_selected_year == $i_year ? ' selected' : '');
+        echo '<option value="' . $i_year . '"' . $selected . '>' . $i_year . '</option>' . "\n";
+    }
+    echo '</select>' . "\n";
+    ?>
 </body>
 
 </html>
