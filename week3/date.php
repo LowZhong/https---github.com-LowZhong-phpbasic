@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style/date.css" rel="stylesheet" type="text/css">
+    <title>date</title>
 </head>
 
 <body>
