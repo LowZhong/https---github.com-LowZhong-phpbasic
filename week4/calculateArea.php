@@ -11,7 +11,7 @@
 <body>
     <?php
     $radius = 5;
-    echo "area of circle with radius = " . $radius . " is " . pi() * pow($radius, 2);
+    echo "area of circle with radius = " . $radius . " is " . pi() * pow($radius, 2); //takes two parameters
     ?>
 </body>
 

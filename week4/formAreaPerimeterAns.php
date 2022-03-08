@@ -9,10 +9,11 @@
 </head>
 
 <body>
-<?php 
-  $radius =10;
-  $circumference= 2 * 3.14 * $radius; //2TTr
-  echo "Circumference of Circle = ".$circumference;
-?>
+    <?php
+    $radius = 10;
+    $circumference = 2 * 3.14 * $radius;
+    echo "Perimeter of Circle = " . $circumference;
+    ?>
 </body>
+
 </html>
