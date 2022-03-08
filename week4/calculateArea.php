@@ -9,27 +9,10 @@
 </head>
 
 <body>
-    <form method="post">
-        <table border="0">
-            <tr>
-                <td><input type="text" name="num1" value="" placeholder="Enter the radius of a circle" /></td>
-            </tr>
-            <tr>
-                <td> <input type="submit" name="submit" value="Submit" /></td>
-            </tr>
-        </table>
-    </form>
-    <?php
-    if (isset($_POST['submit'])) {
-        $r = $_POST['num1'];
-        $pi = 3.14;
-        $area = $pi * $r * $r;
-        echo "Area of a Circle is: " . $area;
-        $cir = 2 * $pi * $r;
-        echo "Circumference of a circle is: " . $cir;
-        return 0;
-    }
-    ?>
+<?php
+   	$radius = 5;
+echo "area of circle with radius = " . $radius . " is " . pi()*pow($radius,2);
+?>
 </body>
 
 </html>
