@@ -10,7 +10,7 @@
 
 <body>
     <div class="container mt-5 text-center">
-        <form action="formAreaPerimeterAns.php" method="get">
+        <form action="formValidateAns.php" method="get">
             Select your circle radius:
             <input type="number" name="radius" id="numberentered"><br>
             <input type="submit" class="mt-3">
