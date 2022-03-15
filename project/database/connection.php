@@ -1,18 +1,17 @@
 <?php
-
 // used to connect to the database
-
 $host = "localhost";
-$db_name = "lowzhong2";
-$username = "lowzhong2";
-$password = "_r]h]qvpApYU!I4L";
+$db_name = "online_store";
+$username = "online_store";
+$password = "Bm)i@MnOM6D!J4_J";
 
 try {
-    $con = new PDO("mysql:host={$host};dbname={$db_name}", $username, $password); //do connection and get a key
-    echo "Connected successfully"; 
+$con = new
+PDO("mysql:host={$host};dbname={$db_name}", $username, $password);
+echo "Connected successfully";
 }
-  
+
 // show error
-catch(PDOException $exception){ 
-    echo "Connection error: ".$exception->getMessage();
+catch(PDOException $exception){
+echo "Connection error: ".$exception->getMessage();
 }
