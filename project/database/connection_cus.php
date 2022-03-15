@@ -37,7 +37,7 @@ function validatePassword($password,$inputconfirmPassword){
         return 'password must contain at least a small letter.';
     }else if(!preg_match('@[0-9]@',$password)){ //preg.checking format
         return 'password must contain at least a number.';
-    }else if($password != $inputconfirmPassword){//
+    }else if($password != $inputconfirmPassword){//not equal
         return 'Both Password & Confirm Password must be same.';
     }
 }
