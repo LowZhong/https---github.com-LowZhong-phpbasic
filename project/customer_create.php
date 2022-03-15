@@ -28,9 +28,9 @@
             $gender = $_POST['gender'];
 
             $error['username'] = validateUsername($username); //array call function
-            $error['password'] = validatePassword($password,$inputconfirmPassword);
-            
-            $error = array_filter($error);//remove null value in the $error if there is no error msg, not have this will not update to database
+            $error['password'] = validatePassword($password, $inputconfirmPassword);
+
+            $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
             if (empty($error)) { //array里面会有nullvalue如果没有clear null value系统以为他不是empty
 
                 try {
