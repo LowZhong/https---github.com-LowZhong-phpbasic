@@ -62,7 +62,7 @@
                 }
             } else {
                 foreach ($error as $value) {
-                    echo "$value <br/>"; //start print error msg
+                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
                 }
             }
         }
