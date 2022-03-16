@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>New Customer Sign In</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -10,7 +10,7 @@
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Customer</h1>
+            <h1>Customer Create Account</h1>
         </div>
 
         <?php
@@ -66,8 +66,8 @@
                 }
             }
         }
-
         ?>
+
         <!-- html form here where the product information will be entered -->
 
         <form action="customer_create.php" method="post">
