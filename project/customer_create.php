@@ -16,7 +16,7 @@
         <?php
         if ($_POST) {
             // include database connection
-            include 'database/connection_cus.php';
+            include 'database/connection.php';
             // posted values
             $username = $_POST['username'];
             $password = $_POST['password'];
