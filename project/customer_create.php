@@ -24,11 +24,15 @@
             $email = $_POST['email'];
             $firstname = $_POST['firstname'];
             $lastname = $_POST['lastname'];
-            $birthdate = $_POST['birthdate'];
+            $year = $_POST['year'];
+            $month = $_POST['month'];
+            $day = $_POST['day'];
+            $birthdate = "$year/$month/$day";
             $gender = $_POST['gender'];
 
             $error['username'] = validateUsername($username); //array call function
             $error['password'] = validatePassword($password, $inputconfirmPassword);
+            $error['birthdate'] = validateAge($year, $birthdate);
 
             $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
             if (empty($error)) { //array里面会有nullvalue如果没有clear null value系统以为他不是empty
@@ -73,60 +77,72 @@
         <form action="customer_create.php" method="post">
             <table class='table table-hover table-responsive table-bordered'>
 
-                <div class="row">
-                    <div class="col">
-                        <input type="text" name="username" id="username" class="form-control" placeholder="username">
-                    </div>
-                    <div class="col">
-                        <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name">
-                    </div>
+                <tr>
+                    <td>
+                        <div class="col">
+                            <input type="text" name="username" id="username" class="form-control" placeholder="username">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name">
+                        </div>
 
-                    <div class="col">
-                        <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name">
-                    </div>
-                </div>
+                        <div class="col">
+                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name">
+                        </div>
+                    </td>
+                </tr>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gender" id="gender" value="male">
-                    <label class="form-check-label" for="gender">
-                        male
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gender" id="gender" value="female">
-                    <label class="form-check-label" for="gender">
-                        female
-                    </label>
-                </div>
+                <tr>
+                    <td>gender</td>
+                    <td>
+                        <input class="form-check-input" type="radio" name="gender" id="gender" value="male">
+                        <label class="form-check-label" for="gender">
+                            male
+                        </label>
 
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                    </div>
-                </div>
+                        <input class="form-check-input" type="radio" name="gender" id="gender" value="female">
+                        <label class="form-check-label" for="gender">
+                            female
+                        </label>
+                    </td>
+                </tr>
 
-                <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                    </div>
-                </div>
+                <tr>
+                    <td>
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                            </div>
+                        </div>
 
-                <div class="form-group row">
-                    <label for="inputconfirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputconfirmPassword" name="inputconfirmPassword" placeholder="Password">
-                    </div>
-                </div>
+                        <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                            </div>
+                        </div>
 
+                        <div class="form-group row">
+                            <label for="inputconfirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="inputconfirmPassword" name="inputconfirmPassword" placeholder="Password">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Date Of Birth</td>
+
+                    <td>
                 <!--day-->
                 <?php
-                $selected_day = date('d'); //current day
+                $birthdate = date('d'); //current day
 
-                echo '<select id="birthdate" name="birthdate">' . "\n";
+                echo '<select id="day" name="day">' . "\n";
                 for ($i_day = 1; $i_day <= 31; $i_day++) {
-                    $selected = ($selected_day == $i_day ? ' selected' : '');
+                    $selected = ($birthdate == $i_day ? ' selected' : '');
                     echo '<option value="' . $i_day . '"' . $selected . '>' . $i_day . '</option>' . "\n";
                 }
                 echo '</select>' . "\n";
@@ -134,11 +150,11 @@
 
                 <!--month-->
                 <?php
-                $selected_month = date('m'); //current month
+                $birthdate = date('m'); //current month
 
-                echo '<select id="birthdate" name="birthdate">' . "\n";
+                echo '<select id="month" name="month">' . "\n";
                 for ($i_month = 1; $i_month <= 12; $i_month++) {
-                    $selected = ($selected_month == $i_month ? ' selected' : '');
+                    $selected = ($birthdate == $i_month ? ' selected' : '');
                     echo '<option value="' . $i_month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $i_month)) . '</option>' . "\n";
                 }
                 echo '</select>' . "\n";
@@ -148,15 +164,17 @@
                 <?php
                 $year_start  = 2022;
                 $year_end = date('Y'); // current Year
-                $user_selected_year = 2022;
+                $birthdate = 2022;
 
-                echo '<select id="birthdate" name="birthdate">' . "\n";
+                echo '<select id="year" name="year">' . "\n";
                 for ($i_year = $year_start; $i_year >= 1990; $i_year--) {
-                    $selected = ($user_selected_year == $i_year ? ' selected' : '');
+                    $selected = ($birthdate == $i_year ? ' selected' : '');
                     echo '<option value="' . $i_year . '"' . $selected . '>' . $i_year . '</option>' . "\n";
                 }
                 echo '</select>' . "\n";
                 ?>
+                </td>
+                </tr>
 
                 <td>
                     <input type='submit' value='Save' class='btn btn-primary' />

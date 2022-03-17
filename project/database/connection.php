@@ -16,6 +16,11 @@ catch (PDOException $exception) {
     echo "Connection error: " . $exception->getMessage();
 }
 
+
+function validateName($name){
+
+}
+
 function validateUsername($username)
 {
     if ($username == null) {
@@ -41,5 +46,14 @@ function validatePassword($password, $inputconfirmPassword)
         return 'password must contain at least a number.';
     } else if ($password != $inputconfirmPassword) { //not equal
         return 'Both Password & Confirm Password must be same.';
+    }
+}
+
+function validateAge($year, $birthdate)
+{
+    if ($birthdate == null) {
+        return 'Please select your Date And Birth';
+    } else if (date('Y') - $year <= 18) {
+        return 'You must at least 18 or above.';
     }
 }
