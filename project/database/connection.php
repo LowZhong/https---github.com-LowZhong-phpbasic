@@ -18,27 +18,26 @@ catch (PDOException $exception) {
 
 // product_create function
 function validateName($name){
-    if($name == null) {
+    if ($name == null) {
         return 'Please enter product name';
     } else if (!preg_match('@[A-Z]@', $name)) {
         return 'product name must contain at least a capital letter.';
     } else if (!preg_match('@[a-z]@', $name)) {
         return 'product name must contain at least a small letter.';
-        }
+    }
 }
 
 function validatePrice($price){
-    if($price == null) {
+    if ($price == null) {
         return 'Please enter the price';
-    }else if (!preg_match('/^[0-9]+(\\.[0-9]+)?$/', $price)) {
+    } else if (!preg_match('/^[0-9]+(\\.[0-9]+)?$/', $price)) {
         return 'The price only can enter the number';
     }
 }
 
 
 // customer_create function
-function validateUsername($username)
-{
+function validateUsername($username){
     if ($username == null) {
         return 'Please enter username';
     } else if (strlen($username) < 6) {
@@ -46,8 +45,7 @@ function validateUsername($username)
     }
 }
 
-function validatePassword($password, $inputconfirmPassword)
-{
+function validatePassword($password, $inputconfirmPassword){
     if ($password == null) {
         return 'Please enter password';
     } else if ($inputconfirmPassword == null) {
@@ -65,8 +63,7 @@ function validatePassword($password, $inputconfirmPassword)
     }
 }
 
-function validateAge($year, $birthdate)
-{
+function validateAge($year, $birthdate){
     if ($birthdate == null) {
         return 'Please select your Date And Birth';
     } else if (date('Y') - $year <= 18) {
