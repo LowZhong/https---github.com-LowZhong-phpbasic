@@ -12,7 +12,7 @@
         <div class="page-header">
             <h1>Create Product</h1>
         </div>
-        
+
         <?php
         if ($_POST) {
             // include database connection
@@ -22,31 +22,42 @@
             $description = $_POST['description'];
             $price = $_POST['price'];
 
-            try {
-                // insert query
-                $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created";
-                // prepare query for execution
-                $stmt = $con->prepare($query);
-                // bind the parameters
-                $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':description', $description);
-                $stmt->bindParam(':price', $price);
-                // specify when this record was inserted to the database
-                date_default_timezone_set("Asia/Kuala_Lumpur");
-                $created = date('Y-m-d H:i:s');
-                $stmt->bindParam(':created', $created);
+            $error['name'] = validatename($name);
+            $error['price'] = validatePrice($price);
 
-                // Execute the query
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was saved.</div>";
-                } else {
-                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
+            $error = array_filter($error);
+            if (empty($error)) {
+
+                try {
+                    // insert query
+                    $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created";
+                    // prepare query for execution
+                    $stmt = $con->prepare($query);
+                    // bind the parameters
+                    $stmt->bindParam(':name', $name);
+                    $stmt->bindParam(':description', $description);
+                    $stmt->bindParam(':price', $price);
+                    // specify when this record was inserted to the database
+                    date_default_timezone_set("Asia/Kuala_Lumpur");
+                    $created = date('Y-m-d H:i:s');
+                    $stmt->bindParam(':created', $created);
+
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    }
                 }
-            }
 
-            // show error
-            catch (PDOException $exception) {
-                die('ERROR: ' . $exception->getMessage());
+                // show error
+                catch (PDOException $exception) {
+                    die('ERROR: ' . $exception->getMessage());
+                }
+            } else {
+                foreach ($error as $value) {
+                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
+                }
             }
         }
 
