@@ -56,9 +56,7 @@
 
                 extract($row);
                 //function
-                //$sexsymbol= sex($gender);
-
-
+                
                 // creating new table row per record
                 echo "<tr>";
                 echo "<td>{$username}</td>";

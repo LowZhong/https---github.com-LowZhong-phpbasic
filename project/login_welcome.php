@@ -8,6 +8,12 @@
 </head>
 
 <body>
-    
+<div class="container-fluid h1 text-center m-2">
+        <?php
+        echo "Welcome!"."<br/>";
+        echo $_GET["username"] . "<br/>";
+       
+        ?>
+    </div>
 </body>
 </html>

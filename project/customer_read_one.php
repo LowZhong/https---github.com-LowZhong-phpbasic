@@ -26,7 +26,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT * FROM customer WHERE username = ? LIMIT 0,1";
+            $query = "SELECT username, email, password, firstname, lastname, gender, birthdate, starsign, animalyear FROM customer WHERE username = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -37,12 +37,21 @@
 
             // store retrieved row to a variable
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            extract($row);
 
             // values to fill up our form
-            /*$name = $row['name'];
-            $description = $row['description'];
-            $price = $row['price'];*/
+            $username = $row['username'];
+            $password = $row['password'];
+            $inputconfirmPassword = $row['inputconfirmPassword'];
+            $email = $row['email'];
+            $firstname = $row['firstname'];
+            $lastname = $row['lastname'];
+            $year = $row['year'];
+            $month = $row['month'];
+            $day = $row['day'];
+            $birthdate = "$year/$month/$day";
+            $gender = $row['gender'];
+            $status = $row['status'];
+            $starsign = $row['starsign'];
         }
 
         // show error
@@ -85,11 +94,11 @@
             </tr>
             <tr>
                 <td>Star Sign</td>
-                <td><?php echo htmlspecialchars($, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($starsign, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Animal Year</td>
-                <td><?php echo htmlspecialchars($, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($animalyear, ENT_QUOTES);  ?></td>
             </tr>
                     <a href='customer_read.php' class='btn btn-danger'>Back to read products</a>
                 </td>
