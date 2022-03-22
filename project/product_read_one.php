@@ -3,12 +3,11 @@
 
 <head>
     <title>PDO - Read One Record - PHP CRUD Tutorial</title>
-    <!-- Latest compiled and minified Bootstrap CSS →
+    <!-- Latest compiled and minified Bootstrap CSS → -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-</head>
+
 <body>
- 
     <!-- container -->
     <div class="container">
         <div class="page-header">
@@ -22,7 +21,7 @@
         $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
 
         //include database connection
-        include 'database/coonection.php';
+        include 'database/connection.php';
 
         // read current record's data
         try {
@@ -53,7 +52,7 @@
 
 
         <!-- HTML read one record table will be here -->
-        <!--we have our html table here where the record will be displayed-->
+
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Name</td>
@@ -70,13 +69,16 @@
             <tr>
                 <td></td>
                 <td>
-                    <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                    <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
                 </td>
             </tr>
         </table>
+        <!--we have our html table here where the record will be displayed-->
 
-    </div> <!-- end .container -->
+    </div>
+    <!-- end .container -->
 
-    </body>
+
+</body>
 
 </html>
