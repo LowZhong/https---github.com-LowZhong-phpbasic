@@ -29,6 +29,13 @@
             $day = $_POST['day'];
             $birthdate = "$year/$month/$day";
             $gender = $_POST['gender'];
+            $status = $_POST['status'];
+            $starsign = $_POST['starsign'];
+            $stmt = $con->prepare("SELECT * FROM customer WHERE username=?");
+            //execute the statement
+            $stmt->execute([$username]);
+            //fetch result
+            $user = $stmt->fetch();
 
             $error['username'] = validateUsername($username); //array call function
             $error['password'] = validatePassword($password, $inputconfirmPassword);
@@ -39,7 +46,7 @@
 
                 try {
                     // insert query
-                    $query = "INSERT INTO customer SET username=:username, password=:password, email=:email, firstname=:firstname, lastname=:lastname, birthdate=:birthdate, gender=:gender";
+                    $query = "INSERT INTO customer SET username=:username, password=:password, email=:email, firstname=:firstname, lastname=:lastname, birthdate=:birthdate, gender=:gender, status=:status";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
@@ -50,6 +57,8 @@
                     $stmt->bindParam(':lastname', $lastname);
                     $stmt->bindParam(':birthdate', $birthdate);
                     $stmt->bindParam(':gender', $gender);
+                    $stmt->bindParam(':status', $status);
+                    $stmt->bindParam(':status', $starsign);
                     // specify when this record was inserted to the database
 
                     // Execute the query
@@ -136,44 +145,59 @@
                     <td>Date Of Birth</td>
 
                     <td>
-                <!--day-->
-                <?php
-                $birthdate = date('d'); //current day
+                        <!--day-->
+                        <?php
+                        $birthdate = date('d'); //current day
 
-                echo '<select id="day" name="day">' . "\n";
-                for ($i_day = 1; $i_day <= 31; $i_day++) {
-                    $selected = ($birthdate == $i_day ? ' selected' : '');
-                    echo '<option value="' . $i_day . '"' . $selected . '>' . $i_day . '</option>' . "\n";
-                }
-                echo '</select>' . "\n";
-                ?>
+                        echo '<select id="day" name="day">' . "\n";
+                        for ($i_day = 1; $i_day <= 31; $i_day++) {
+                            $selected = ($birthdate == $i_day ? ' selected' : '');
+                            echo '<option value="' . $i_day . '"' . $selected . '>' . $i_day . '</option>' . "\n";
+                        }
+                        echo '</select>' . "\n";
+                        ?>
 
-                <!--month-->
-                <?php
-                $birthdate = date('m'); //current month
+                        <!--month-->
+                        <?php
+                        $birthdate = date('m'); //current month
 
-                echo '<select id="month" name="month">' . "\n";
-                for ($i_month = 1; $i_month <= 12; $i_month++) {
-                    $selected = ($birthdate == $i_month ? ' selected' : '');
-                    echo '<option value="' . $i_month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $i_month)) . '</option>' . "\n";
-                }
-                echo '</select>' . "\n";
-                ?>
+                        echo '<select id="month" name="month">' . "\n";
+                        for ($i_month = 1; $i_month <= 12; $i_month++) {
+                            $selected = ($birthdate == $i_month ? ' selected' : '');
+                            echo '<option value="' . $i_month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $i_month)) . '</option>' . "\n";
+                        }
+                        echo '</select>' . "\n";
+                        ?>
 
-                <!--year-->
-                <?php
-                $year_start  = 2022;
-                $year_end = date('Y'); // current Year
-                $birthdate = 2022;
+                        <!--year-->
+                        <?php
+                        $year_start  = 2022;
+                        $year_end = date('Y'); // current Year
+                        $birthdate = 2022;
 
-                echo '<select id="year" name="year">' . "\n";
-                for ($i_year = $year_start; $i_year >= 1990; $i_year--) {
-                    $selected = ($birthdate == $i_year ? ' selected' : '');
-                    echo '<option value="' . $i_year . '"' . $selected . '>' . $i_year . '</option>' . "\n";
-                }
-                echo '</select>' . "\n";
-                ?>
-                </td>
+                        echo '<select id="year" name="year">' . "\n";
+                        for ($i_year = $year_start; $i_year >= 1990; $i_year--) {
+                            $selected = ($birthdate == $i_year ? ' selected' : '');
+                            echo '<option value="' . $i_year . '"' . $selected . '>' . $i_year . '</option>' . "\n";
+                        }
+                        echo '</select>' . "\n";
+                        ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Account status</td>
+                    <td>
+                        <input class="form-check-input" type="radio" name="status" id="status" value="active">
+                        <label class="form-check-label" for="status">
+                            Active
+                        </label>
+
+                        <input class="form-check-input" type="radio" name="status" id="status" value="disabled">
+                        <label class="form-check-label" for="status">
+                            Disabled
+                        </label>
+                    </td>
                 </tr>
 
                 <td>
