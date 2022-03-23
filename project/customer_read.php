@@ -63,7 +63,7 @@
                 echo "<td>{$email}</td>";
                 echo "<td>{$firstname}</td>";
                 echo "<td>{$lastname}</td>";
-                echo "<td><img src='images/{$gender}.png' width='30px'/></td>";
+                echo "<td><img src='images/$gender.png'/></td>";
                 echo "<td>";
 
                 // read one record

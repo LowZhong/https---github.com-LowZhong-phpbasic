@@ -18,6 +18,7 @@
         <?php
         if ($_POST) {
             // include database connection
+            include 'database/connection.php';
             //get the key first
 
             $login_username = $_POST['username'];
@@ -26,7 +27,6 @@
             if (empty($login_username) || empty($login_password)) { 
                 echo "empty";
             } else {
-                include 'database/connection.php';
                 // select all data
                 $query = "SELECT * FROM customer WHERE username = ?";
                 $stmt = $con->prepare($query);
