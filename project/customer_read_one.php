@@ -100,8 +100,8 @@
                 <td>Animal Year</td>
                 <td><?php echo htmlspecialchars($animalyear, ENT_QUOTES);  ?></td>
             </tr>
-                    <a href='customer_read.php' class='btn btn-danger'>Back to read products</a>
-                </td>
+            <a href='customer_read.php' class='btn btn-danger'>Back to read products</a>
+            </td>
             </tr>
         </table>
         <!--we have our html table here where the record will be displayed-->
