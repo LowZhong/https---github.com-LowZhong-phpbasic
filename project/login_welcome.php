@@ -8,11 +8,10 @@
 </head>
 
 <body>
-<div class="container-fluid h1 text-center m-2">
+<div class="container-fluid h1 text-center m-2" class="text-primary">>
         <?php
         echo "Welcome!"."<br/>";
         echo $_GET["username"] . "<br/>";
-       
         ?>
     </div>
 </body>

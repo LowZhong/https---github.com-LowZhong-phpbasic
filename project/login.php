@@ -41,7 +41,7 @@
                 } else if ($row['status'] == "disabled"){
                     echo "<div class='alert alert-danger'>Account Disabled</div>";
                 } else {
-                    header("Location:../project/login_welcome.php?username=$login_username");
+                    header("Location:phpbasic/project/login_welcome.php?username=$login_username");
                 }
             }
         }
