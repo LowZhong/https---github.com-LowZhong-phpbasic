@@ -19,6 +19,7 @@
         if ($_POST) {
             // include database connection
             include 'database/connection.php';
+            include 'database/function.php';
             //get the key first
 
             $login_username = $_POST['username'];

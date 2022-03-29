@@ -17,6 +17,7 @@
         if ($_POST) {
             // include database connection
             include 'database/connection.php';
+            include 'database/function.php';
             // posted values
             $name = $_POST['name'];
             $description = $_POST['description'];

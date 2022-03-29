@@ -22,7 +22,7 @@
 
         //include database connection
         include 'database/connection.php';
-
+        include 'database/function.php';
         // read current record's data
         try {
             // prepare select query
