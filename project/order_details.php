@@ -29,16 +29,12 @@
             // prepare select query
             $query = "SELECT orderID, userName, orderTime FROM order_details WHERE orderID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
-
             // this is the first question mark
             $stmt->bindParam(1, $orderID);
-
             // execute our query
             $stmt->execute();
-
             // store retrieved row to a variable
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
             // values to fill up our form
         }
 
@@ -48,9 +44,7 @@
         }
         ?>
 
-
         <!-- HTML read one record table will be here -->
-
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Order ID</td>
@@ -92,16 +86,13 @@
                 <td>Order Time</td>
                 <td><?php echo htmlspecialchars($orderTime, ENT_QUOTES);  ?></td>
             </tr>
-            <a href='order_listing.php' class='btn btn-danger'>Back to read Order</a>
+            <a href='order_listing.php' class='btn btn-danger'>Back to order list</a>
             </td>
             </tr>
         </table>
         <!--we have our html table here where the record will be displayed-->
-
     </div>
     <!-- end .container -->
-
-
 </body>
 
 </html>

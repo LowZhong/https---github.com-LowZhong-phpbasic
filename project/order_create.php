@@ -14,6 +14,7 @@
         </div>
 
         <?php
+        
         if ($_POST) {
             // include database connection
             include 'database/connection.php';
@@ -30,23 +31,28 @@
             $qty3 = $_POST['qty3'];
 
 
-            /*$error[''] = validatename($);
-            $error[''] = validatePrice($);*/
+            $error['userName'] = validateOrderusername($userName);
 
             $error = array_filter($error);
             if (empty($error)) {
-
+                
                 try {
                     // insert query
-                    $query = "INSERT INTO order_summary SET orderID=: orderID, userName=:userName, orderTime=:orderTime";
+                    $query = "INSERT INTO order_summary SET orderID=:orderID, userName=:userName, orderTime=:orderTime";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
                     $stmt->bindParam(':orderID', $orderID);
                     $stmt->bindParam(':userName', $userName);
+                    $stmt->bindParam(':product1', $product1);
+                    $stmt->bindParam(':product2', $product2);
+                    $stmt->bindParam(':product3', $product3);
+                    $stmt->bindParam(':qty1', $qty1);
+                    $stmt->bindParam(':qty2', $qty2);
+                    $stmt->bindParam(':qty3', $qty3);
                     // specify when this record was inserted to the database
                     date_default_timezone_set("Asia/Kuala_Lumpur");
-                    $created = date('Y-m-d H:i:s');
+                    $orderTime = date('Y-m-d H:i:s');
                     $stmt->bindParam(':orderTime', $orderTime);
 
                     // Execute the query
@@ -87,13 +93,13 @@
                                 <div class="col">
                                     <select class="form_select" name="product1">
                                         <option selected>Product 1</option>
-                                        <option value="1">Basketball</option>
-                                        <option value="2">Gatorade</option>
-                                        <option value="3">Eye Glasses</option>
-                                        <option value="4">Trash Can</option>
-                                        <option value="5">Mouse</option>
-                                        <option value="6">Earphone</option>
-                                        <option value="7">Pillow</option>
+                                        <option value="Basketball">Basketball</option>
+                                        <option value="Gatorade">Gatorade</option>
+                                        <option value="EyeGlasses">Eye Glasses</option>
+                                        <option value="TrashCan">Trash Can</option>
+                                        <option value="Mouse">Mouse</option>
+                                        <option value="Earphone">Earphone</option>
+                                        <option value="Pillow">Pillow</option>
                                     </select>
                                 </div>
                                 Quantity
