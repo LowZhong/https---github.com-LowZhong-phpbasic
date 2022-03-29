@@ -28,17 +28,17 @@
             $qty2 = $_POST['qty2'];
             $product3 = $_POST['product3'];
             $qty3 = $_POST['qty3'];
-            
 
-            $error[''] = validatename($);
-            $error[''] = validatePrice($);
+
+            /*$error[''] = validatename($);
+            $error[''] = validatePrice($);*/
 
             $error = array_filter($error);
             if (empty($error)) {
 
                 try {
                     // insert query
-                    $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created";
+                    $query = "INSERT INTO order_summary SET orderID=: orderID, userName=:userName, orderTime=:orderTime";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
@@ -70,107 +70,75 @@
 
         ?>
         <!-- html form here where the product information will be entered -->
-
         <form action="order_create.php" method="post">
             <table class='table table-hover table-responsive table-bordered'>
 
-                <tr>
-                    <td>UserName</td>
-                    <td><input type='text' name='userName' class='form-control' /></td>
-                </tr>
+                <form action="order_create.php" method="post">
+                    <table class='table table-hover table-responsive table-bordered'>
 
-                <tr>
-                    <td>Select Product</td> 
-                    <td>
-                        <div class="row">
-                            <div class="col">
-                                <select class="form-select" name='product1' aria-label="Default select example"> 
-                                    <option selected>Product 1</option>
-                                    <?php
-                                    $query = "SELECT * FROM Product"; //link product table to the selection https://stackoverflow.com/questions/28335705/how-do-i-populate-select-menu-options-from-sql-database-using-bootstrap-framewor
-                                    $stmt = $con->prepare($query);
-                                    $stmt->execute();
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC));
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                        <tr>
+                            <td>Username</td>
+                            <td><input type='text' name='name' class='form-control' /></td>
+                        </tr>
 
-                <tr>
-                    <td>Quantity:</td>
-                    <td>
-                        <div class="col">
-                        <td><input type='number' name='qty1' class='form-control' /></td>
-                        </div>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>
-                        <div class="row">
-                            <div class="col">
-                                <select class="form-select" name='product2' aria-label="Default select example"> 
-                                    <option selected>Product 2</option>
-                                    <?php
-                                    $query = "SELECT * FROM Product"; 
-                                    $stmt = $con->prepare($query);
-                                    $stmt->execute();
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC));
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                        <tr>
+                            <td>Select Product 1</td>
+                            <td>
+                                <div class="col">
+                                    <select class="form_select" name="product1">
+                                        <option selected>Product 1</option>
+                                    </select>
+                                </div>
+                                Quantity
+                                <input type='number' name='qty1' class='form-control' />
+                            </td>
+                        </tr>
 
-                <tr>
-                    <td>Quantity:</td>
-                    <td>
-                        <div class="col">
-                        <td><input type='number' name='qty2' class='form-control' /></td>
-                        </div>
-                    </td>
-                </tr>
+                        <tr>
+                            <td>Select Product 2</td>
+                            <td>
+                                <div class="col">
+                                    <select class="form_select" name="product2">
+                                        <option selected>Product 2</option>
+                                    </select>
+                                </div>
+                                Quantity
+                                <input type='number' name='qty2' class='form-control' />
+                            </td>
+                        </tr>
 
-                <tr>
-                    <td>
-                        <div class="row">
-                            <div class="col">
-                                <select class="form-select" name='product3' aria-label="Default select example"> 
-                                    <option selected>Product 3</option>
-                                    <?php
-                                    $query = "SELECT * FROM Product"; 
-                                    $stmt = $con->prepare($query);
-                                    $stmt->execute();
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC));
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                        <tr>
+                            <td>Select Product 3</td>
+                            <td>
+                                <div class="col">
+                                    <select class="form_select" name="product3">
+                                        <option selected>Product 3</option>
+                                    </select>
+                                </div>
+                                Quantity
+                                <input type='number' name='qty3' class='form-control' />
+                            </td>
+                        </tr>
 
-                <tr>
-                    <td>Quantity:</td>
-                    <td>
-                        <div class="col">
-                        <td><input type='number' name='qty3' class='form-control' /></td>
-                        </div>
-                    </td>
-                </tr>
 
-                <tr>
-                    <td>
-                        <input type='submit' value='Save' class='btn btn-primary'/>
-                        <a href='index.php' class='btn btn-danger'>Back</a>
-                    </td>
-                </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td><input type='text' name='price' class='form-control' /></td>
+                        </tr>
 
-            </table>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type='submit' value='Save' class='btn btn-primary' />
+                                <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
+                            </td>
+                        </tr>
 
-        </form>
+                    </table>
+
+
+                </form>
+
     </div>
     <!-- end .container -->
 </body>
