@@ -87,6 +87,13 @@
                                 <div class="col">
                                     <select class="form_select" name="product1">
                                         <option selected>Product 1</option>
+                                        <option value="1">Basketball</option>
+                                        <option value="2">Gatorade</option>
+                                        <option value="3">Eye Glasses</option>
+                                        <option value="4">Trash Can</option>
+                                        <option value="5">Mouse</option>
+                                        <option value="6">Earphone</option>
+                                        <option value="7">Pillow</option>
                                     </select>
                                 </div>
                                 Quantity
@@ -100,6 +107,13 @@
                                 <div class="col">
                                     <select class="form_select" name="product2">
                                         <option selected>Product 2</option>
+                                        <option value="1">Basketball</option>
+                                        <option value="2">Gatorade</option>
+                                        <option value="3">Eye Glasses</option>
+                                        <option value="4">Trash Can</option>
+                                        <option value="5">Mouse</option>
+                                        <option value="6">Earphone</option>
+                                        <option value="7">Pillow</option>
                                     </select>
                                 </div>
                                 Quantity
@@ -113,6 +127,13 @@
                                 <div class="col">
                                     <select class="form_select" name="product3">
                                         <option selected>Product 3</option>
+                                        <option value="1">Basketball</option>
+                                        <option value="2">Gatorade</option>
+                                        <option value="3">Eye Glasses</option>
+                                        <option value="4">Trash Can</option>
+                                        <option value="5">Mouse</option>
+                                        <option value="6">Earphone</option>
+                                        <option value="7">Pillow</option>
                                     </select>
                                 </div>
                                 Quantity
@@ -130,7 +151,7 @@
                             <td></td>
                             <td>
                                 <input type='submit' value='Save' class='btn btn-primary' />
-                                <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
+                                <a href='index.php' class='btn btn-danger'>Back</a>
                             </td>
                         </tr>
 
