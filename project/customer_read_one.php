@@ -40,7 +40,7 @@
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // values to fill up our form
-            /*$username = $row['username'];
+            $username = $row['username'];
             $password = $row['password'];
             $inputconfirmPassword = $row['inputconfirmPassword'];
             $email = $row['email'];
@@ -52,7 +52,7 @@
             $birthdate = "$year/$month/$day";
             $gender = $row['gender'];
             $status = $row['status'];
-            $starsign = $row['starsign'];*/
+            $starsign = $row['starsign'];
         }
 
         // show error
