@@ -107,7 +107,7 @@ function validateOrderusername($userName){
 }
 
 function orderproduct($product1, $product2, $product3){
-    if ($product1 || $product2 || $product3 = null){
+    if ($product1 . $product2 . $product3 = null){
         return 'Please fill up the Product';
     } 
 }
