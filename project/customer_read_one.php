@@ -27,7 +27,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT username, email, password, firstname, lastname, gender, birthdate, starsign, animalyear FROM customer WHERE username = ? LIMIT 0,1";
+            $query = "SELECT * FROM customer WHERE username = ? ";
             $stmt = $con->prepare($query);
 
             // this is the first question mark

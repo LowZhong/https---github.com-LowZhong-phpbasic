@@ -47,7 +47,7 @@
 
                 try {
                     // insert query
-                    $query = "INSERT INTO customer SET username=:username, password=:password, email=:email, firstname=:firstname, lastname=:lastname, birthdate=:birthdate, gender=:gender, status=:status";
+                    $query = "INSERT INTO customer SET username=:username, password=:password, email=:email, firstname=:firstname, lastname=:lastname, birthdate=:birthdate, gender=:gender, starsign=:starsign, status=:status";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
@@ -59,7 +59,7 @@
                     $stmt->bindParam(':birthdate', $birthdate);
                     $stmt->bindParam(':gender', $gender);
                     $stmt->bindParam(':status', $status);
-                    $stmt->bindParam(':status', $starsign);
+                    $stmt->bindParam(':starsign', $starsign);
                     // specify when this record was inserted to the database
 
                     // Execute the query
