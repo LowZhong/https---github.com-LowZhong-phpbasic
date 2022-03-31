@@ -14,7 +14,11 @@
         </div>
 
         <?php
-        if ($_POST) {
+        // define variables and set to empty values
+        $usernameErr = $firstnameErr = $lastnameErr = $passwordErr = $inputconfirmPasswordErr = $birthdateErr = $genderErr = $statusErr = $starsignErr = "";
+        $username = $firstname = $lastname = $password = $inputconfirmPassword = $birthdate = $gender = $status = $starsign = "";
+        
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // include database connection
             include 'database/connection.php';
             include 'database/function.php';
@@ -41,6 +45,14 @@
             $error['username'] = validateUsername($username); //array call function
             $error['password'] = validatePassword($password, $inputconfirmPassword);
             $error['birthdate'] = validateAge($year, $birthdate);
+
+            function test_input($data)
+            {
+                $data = trim($data);
+                $data = stripslashes($data);
+                $data = htmlspecialchars($data);
+                return $data;
+            }
 
             $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
             if (empty($error)) { //array里面会有nullvalue如果没有clear null value系统以为他不是empty
@@ -84,20 +96,20 @@
 
         <!-- html form here where the product information will be entered -->
 
-        <form action="customer_create.php" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
 
                 <tr>
                     <td>
                         <div class="col">
-                            <input type="text" name="username" id="username" class="form-control" placeholder="username">
+                            <input type="text" name="username" id="username" class="form-control" placeholder="username" value="<?php echo $username; ?>">
                         </div>
                         <div class="col">
-                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name">
+                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name" value="<?php echo $firstname; ?>">
                         </div>
 
                         <div class="col">
-                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name">
+                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name" value="<?php echo $lastname; ?>">
                         </div>
                     </td>
                 </tr>
@@ -122,21 +134,21 @@
                         <div class="form-group row">
                             <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="inputconfirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" id="inputconfirmPassword" name="inputconfirmPassword" placeholder="Password">
+                                <input type="password" class="form-control" id="inputconfirmPassword" name="inputconfirmPassword" placeholder="Password" value="<?php echo $inputconfirmPassword; ?>">
                             </div>
                         </div>
                     </td>
