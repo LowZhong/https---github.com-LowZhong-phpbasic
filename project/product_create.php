@@ -14,7 +14,11 @@
         </div>
 
         <?php
-        if ($_POST) {
+        // define variables and set to empty values
+        $nameErr = $descriptionErr = $priceErr = "";
+        $name = $description = $price = "";
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // include database connection
             include 'database/connection.php';
             include 'database/function.php';
@@ -25,6 +29,14 @@
 
             $error['name'] = validatename($name);
             $error['price'] = validatePrice($price);
+
+            function test_input($data)
+            {
+                $data = trim($data);
+                $data = stripslashes($data);
+                $data = htmlspecialchars($data);
+                return $data;
+            }
 
             $error = array_filter($error);
             if (empty($error)) {
@@ -65,22 +77,22 @@
         ?>
         <!-- html form here where the product information will be entered -->
 
-        <form action="product_create.php" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
 
                 <tr>
                     <td>Name</td>
-                    <td><input type='text' name='name' class='form-control' /></td>
+                    <td><input type='text' name='name' class='form-control' value="<?php echo $name; ?>" /></td>
                 </tr>
 
                 <tr>
                     <td>Description</td>
-                    <td><textarea name='description' class='form-control'></textarea></td>
+                    <td><textarea name='description' class='form-control' value="<?php echo $description; ?>"></textarea></td>
                 </tr>
 
                 <tr>
                     <td>Price</td>
-                    <td><input type='text' name='price' class='form-control' /></td>
+                    <td><input type='text' name='price' class='form-control' value="<?php echo $price; ?>" /></td>
                 </tr>
 
                 <tr>
