@@ -23,7 +23,7 @@
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT * FROM customer ORDER BY username DESC";
+        $query = "SELECT username, email, firstname, lastname, gender FROM customer ORDER BY username DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
