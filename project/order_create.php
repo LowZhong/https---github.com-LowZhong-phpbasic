@@ -14,8 +14,10 @@
         </div>
 
         <?php
-        
-        if ($_POST) {
+        // define variables and set to empty values
+        $orderIDErr = $userNameErr = $orderTimeErr = $product1Err = $qty1Err = $product2Err = $qty2Err = $product3Err = $qty3Err = "";
+        $orderID = $userName = $orderTime = $product1 = $qty1 = $product2 = $qty2 = $product3 = $qty3 = "";
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // include database connection
             include 'database/connection.php';
             include 'database/function.php';
@@ -30,12 +32,21 @@
             $product3 = $_POST['product3'];
             $qty3 = $_POST['qty3'];
 
+            function test_input($data)
+            {
+                $data = trim($data);
+                $data = stripslashes($data);
+                $data = htmlspecialchars($data);
+                return $data;
+            }
+
+
 
             $error['userName'] = validateOrderusername($userName);
 
             $error = array_filter($error);
             if (empty($error)) {
-                
+
                 try {
                     // insert query
                     $query = "INSERT INTO order_summary SET orderID=:orderID, userName=:userName, orderTime=:orderTime";
@@ -76,22 +87,21 @@
 
         ?>
         <!-- html form here where the product information will be entered -->
-        <form action="order_create.php" method="post">
             <table class='table table-hover table-responsive table-bordered'>
 
-                <form action="order_create.php" method="post">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                     <table class='table table-hover table-responsive table-bordered'>
 
                         <tr>
                             <td>Username</td>
-                            <td><input type='text' name='name' class='form-control' /></td>
+                            <td><input type='text' name='userName' class='form-control' value="<?php echo $userName;?>"/></td>
                         </tr>
 
                         <tr>
                             <td>Select Product 1</td>
                             <td>
                                 <div class="col">
-                                    <select class="form_select" name="product1">
+                                    <select class="form_select" name="product1" value="<?php echo $product1;?>">
                                         <option selected>Product 1</option>
                                         <option value="Basketball">Basketball</option>
                                         <option value="Gatorade">Gatorade</option>
@@ -103,7 +113,7 @@
                                     </select>
                                 </div>
                                 Quantity
-                                <input type='number' name='qty1' class='form-control' />
+                                <input type='number' name='qty1' class='form-control' value="<?php echo $qty1;?>"/>
                             </td>
                         </tr>
 
@@ -111,7 +121,7 @@
                             <td>Select Product 2</td>
                             <td>
                                 <div class="col">
-                                    <select class="form_select" name="product2">
+                                    <select class="form_select" name="product2" value="<?php echo $product2;?>">
                                         <option selected>Product 2</option>
                                         <option value="1">Basketball</option>
                                         <option value="2">Gatorade</option>
@@ -123,7 +133,7 @@
                                     </select>
                                 </div>
                                 Quantity
-                                <input type='number' name='qty2' class='form-control' />
+                                <input type='number' name='qty2' class='form-control' value="<?php echo $qty2;?>" />
                             </td>
                         </tr>
 
@@ -131,7 +141,7 @@
                             <td>Select Product 3</td>
                             <td>
                                 <div class="col">
-                                    <select class="form_select" name="product3">
+                                    <select class="form_select" name="product3" value="<?php echo $product3;?>">
                                         <option selected>Product 3</option>
                                         <option value="1">Basketball</option>
                                         <option value="2">Gatorade</option>
@@ -143,14 +153,8 @@
                                     </select>
                                 </div>
                                 Quantity
-                                <input type='number' name='qty3' class='form-control' />
+                                <input type='number' name='qty3' class='form-control' value="<?php echo $qty3;?>" />
                             </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>Price</td>
-                            <td><input type='text' name='price' class='form-control' /></td>
                         </tr>
 
                         <tr>
