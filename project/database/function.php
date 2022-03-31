@@ -97,6 +97,14 @@ function animalYear($year)
     echo $animalyear[$show];
 }
 
+function sex($gender){
+    if ($gender == "male"){
+        return "<img src='images/male_symbol.png' width=30 alt='male'/>";
+    } else {
+        return "<img src='images/female_symbol.png' width=30 alt='female'/>";
+    }
+}
+
 //order create
 function validateOrderusername($userName){
     if ($userName == null){
