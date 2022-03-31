@@ -103,8 +103,8 @@
                 </tr>
 
                 <tr>
-                    <td>gender</td>
                     <td>
+                        gender
                         <input class="form-check-input" type="radio" name="gender" id="gender" value="male">
                         <label class="form-check-label" for="gender">
                             male
@@ -143,9 +143,8 @@
                 </tr>
 
                 <tr>
-                    <td>Date Of Birth</td>
-
                     <td>
+                        Date Of Birth
                         <!--day-->
                         <?php
                         $birthdate = date('d'); //current day
@@ -187,8 +186,8 @@
                 </tr>
 
                 <tr>
-                    <td>Account status</td>
                     <td>
+                        Account status
                         <input class="form-check-input" type="radio" name="status" id="status" value="active">
                         <label class="form-check-label" for="status">
                             Active
