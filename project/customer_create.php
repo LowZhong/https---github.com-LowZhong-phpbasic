@@ -15,8 +15,8 @@
 
         <?php
         // define variables and set to empty values
-        $usernameErr = $firstnameErr = $lastnameErr = $passwordErr = $inputconfirmPasswordErr = $birthdateErr = $genderErr = $statusErr = $starsignErr = "";
-        $username = $firstname = $lastname = $password = $inputconfirmPassword = $birthdate = $gender = $status = $starsign = "";
+        //$usernameErr = $firstnameErr = $lastnameErr = $passwordErr = $inputconfirmPasswordErr = $birthdateErr = $genderErr = $statusErr = $starsignErr = "";
+        $username = $firstname = $lastname = $password = $inputconfirmPassword = $birthdate = $gender = $status = $starsign = $email = "";
         
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // include database connection
@@ -32,10 +32,11 @@
             $year = $_POST['year'];
             $month = $_POST['month'];
             $day = $_POST['day'];
+            
             $birthdate = "$year/$month/$day";
             $gender = $_POST['gender'];
             $status = $_POST['status'];
-            $starsign = $_POST['starsign'];
+            //$starsign = $_POST['starsign'];
             $stmt = $con->prepare("SELECT * FROM customer WHERE username=?");
             //execute the statement
             $stmt->execute([$username]);
@@ -117,12 +118,12 @@
                 <tr>
                     <td>
                         gender
-                        <input class="form-check-input" type="radio" name="gender" id="gender" value="male">
+                        <input class="form-check-input" type="radio" name="gender" id="gender"<?php if($gender == 'male') echo'checked'?> value="male" >
                         <label class="form-check-label" for="gender">
                             male
                         </label>
 
-                        <input class="form-check-input" type="radio" name="gender" id="gender" value="female">
+                        <input class="form-check-input" type="radio" name="gender" id="gender"<?php if($gender == 'female') echo'checked'?> value="female" >
                         <label class="form-check-label" for="gender">
                             female
                         </label>
