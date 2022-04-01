@@ -27,7 +27,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT orderID, userName, orderTime FROM order_details WHERE orderID = ? LIMIT 0,1";
+            $query = "SELECT orderDetailsID, orderID, product, quantity, price FROM order_details WHERE orderDetailsID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
             // this is the first question mark
             $stmt->bindParam(1, $orderID);

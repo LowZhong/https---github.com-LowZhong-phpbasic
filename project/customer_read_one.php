@@ -18,8 +18,8 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record ID not found.');
-
+        
+        $user_name = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record ID not found.');
         //include database connection
         include 'database/connection.php';
         include 'database/function.php';
@@ -27,11 +27,11 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT * FROM customer WHERE username = ? ";
+            $query = "SELECT username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year , status FROM customer WHERE username = ? ";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
-            $stmt->bindParam(1, $username);
+            $stmt->bindParam(1, $user_name);
 
             // execute our query
             $stmt->execute();
@@ -42,7 +42,7 @@
             // values to fill up our form
             $username = $row['username'];
             $password = $row['password'];
-            $inputconfirmPassword = $row['inputconfirmPassword'];
+            //$inputconfirmPassword = $row['inputconfirmPassword'];
             $email = $row['email'];
             $firstname = $row['firstname'];
             $lastname = $row['lastname'];
@@ -52,7 +52,7 @@
             $birthdate = "$year/$month/$day";
             $gender = $row['gender'];
             $status = $row['status'];
-            $starsign = $row['starsign'];
+            
         }
 
         // show error
@@ -95,11 +95,11 @@
             </tr>
             <tr>
                 <td>Star Sign</td>
-                <td><?php echo htmlspecialchars($starsign, ENT_QUOTES);  ?></td>
+                <td><?php starsign($month, $day);  ?></td>
             </tr>
             <tr>
                 <td>Animal Year</td>
-                <td><?php echo htmlspecialchars($animalyear, ENT_QUOTES);  ?></td>
+                <td><?php animalYear($year); ?></td>
             </tr>
             <a href='customer_read.php' class='btn btn-danger'>Back to read products</a>
             </td>
