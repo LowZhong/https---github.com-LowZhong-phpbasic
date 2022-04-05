@@ -64,7 +64,7 @@ function starsign($month, $day) {
     if(($month == 3 && $day >20) || ($month == 4 && $day < 20)) {
         echo "Aries";
     } else if (($month == 4 && $day > 19) || ($month == 5 && $day < 21)) {
-        echo "Taurus";
+        echo "Taurus"; 
     } else if (($month == 5 && $day > 20) || ($month == 6 && $day < 21)) {
         echo "Gemini";
     } else if (($month == 6 && $day > 20) || ($month == 7 && $day <23)) {
