@@ -67,49 +67,12 @@
         }
         ?>
         <!-- HTML form to update record will be here -->
-        <!-- PHP post to update record will be here -->
-        <?php
-        // check if form was submitted
-        if ($_POST) {
-            try {
-                // write update query
-                // in this case, it seemed like we have so many fields to pass and
-                // it is better to label them and not use question marks
-                $query = "UPDATE products
-                  SET name=:name, description=:description, price=:price WHERE id = :id";
-                // prepare query for excecution
-                $stmt = $con->prepare($query);
-
-                // posted values
-                $name = htmlspecialchars(strip_tags($_POST['name']));
-                $description = htmlspecialchars(strip_tags($_POST['description']));
-                $price = htmlspecialchars(strip_tags($_POST['price']));
-
-                // bind the parameters
-                $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':description', $description);
-                $stmt->bindParam(':price', $price);
-                $stmt->bindParam(':id', $id);
-                // Execute the query
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was updated.</div>";
-                } else {
-                    echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
-                }
-            }
-            // show errors
-            catch (PDOException $exception) {
-                die('ERROR: ' . $exception->getMessage());
-            }
-        }
-        ?>
-
         <!--we have our html form here where new record information can be updated-->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Name</td>
-                    <td><input type='text' name='name' value="<?php echo htmlspecialchars($name, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><input type='text' name='name' value="<?php echo htmlspecialchars($name, ENT_QUOTES);  ?>" class='form-control' value="<?php echo $name; ?>" /></td>
                 </tr>
                 <tr>
                     <td>Description</td>
@@ -123,11 +86,65 @@
                     <td></td>
                     <td>
                         <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                        <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
                     </td>
                 </tr>
             </table>
         </form>
+
+        <!-- PHP post to update record will be here -->
+        <?php
+        // check if form was submitted
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            $error['name'] = validatename($name);
+            $error['price'] = validatePrice($price);
+            $error = array_filter($error);
+
+            if (empty($error)) {
+
+
+                try {
+                    // write update query
+                    // in this case, it seemed like we have so many fields to pass and
+                    // it is better to label them and not use question marks
+                    $query = "UPDATE products SET name=:name, description=:description, price=:price WHERE id = :id";
+                    // prepare query for excecution
+                    $stmt = $con->prepare($query);
+
+                    // posted values
+                    $name = htmlspecialchars(strip_tags($_POST['name']));
+                    $description = htmlspecialchars(strip_tags($_POST['description']));
+                    $price = htmlspecialchars(strip_tags($_POST['price']));
+
+                    // bind the parameters
+                    $stmt->bindParam(':name', $name);
+                    $stmt->bindParam(':description', $description);
+                    $stmt->bindParam(':price', $price);
+                    $stmt->bindParam(':id', $id);
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was updated.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    }
+                }
+                // show errors
+                catch (PDOException $exception) {
+                    die('ERROR: ' . $exception->getMessage());
+                }
+            } else {
+                foreach ($error as $value) {
+                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
+                }
+            }
+        }
+
+
+
+
+
+        ?>
 
     </div>
     <!-- end .container -->
