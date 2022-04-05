@@ -86,14 +86,16 @@
 
                 // posted values
                 $orderDetailsID = htmlspecialchars(strip_tags($_POST['orderDetailsID']));
-                $description = htmlspecialchars(strip_tags($_POST['description']));
-                $price = htmlspecialchars(strip_tags($_POST['price']));
+                $orderID = htmlspecialchars(strip_tags($_POST['orderID']));
+                $product = htmlspecialchars(strip_tags($_POST['product']));
+                $quantity = htmlspecialchars(strip_tags($_POST['quantity']));
 
                 // bind the parameters
-                $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':description', $description);
-                $stmt->bindParam(':price', $price);
-                $stmt->bindParam(':id', $id);
+                $stmt->bindParam(':orderDetailsID', $orderDetailsID);
+                $stmt->bindParam(':orderID', $orderID);
+                $stmt->bindParam(':product', $product);
+                $stmt->bindParam(':quantity', $quantity);
+                
                 // Execute the query
                 if ($stmt->execute()) {
                     echo "<div class='alert alert-success'>Record was updated.</div>";
