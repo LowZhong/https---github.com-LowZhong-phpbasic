@@ -27,7 +27,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT orderDetailsID, orderID, product, quantity, price FROM order_details WHERE orderDetailsID = ? LIMIT 0,1";
+            $query = "SELECT orderID, product, quantity FROM order_details WHERE orderID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
             // this is the first question mark
             $stmt->bindParam(1, $orderID);
@@ -55,34 +55,14 @@
                 <td><?php echo htmlspecialchars($userName, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>product 1</td>
+                <td>product</td>
                 <td><?php echo htmlspecialchars($product1, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Quantity</td>
                 <td><?php echo htmlspecialchars($qty1, ENT_QUOTES);  ?></td>
             </tr>
-            <tr>
-                <td>Product 2</td>
-                <td><?php echo htmlspecialchars($product2, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Quantity</td>
-                <td><?php echo htmlspecialchars($qty2, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Product 3</td>
-                <td><?php echo htmlspecialchars($product3, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Quantity</td>
-                <td><?php echo htmlspecialchars($qty3, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
+            
                 <td>Order Time</td>
                 <td><?php echo htmlspecialchars($orderTime, ENT_QUOTES);  ?></td>
             </tr>

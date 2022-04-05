@@ -60,7 +60,7 @@
                 echo "<tr>";
                 echo "<td>{$orderID}</td>";
                 echo "<td>{$userName}</td>";
-                echo "<td>{$orderID}</td>";
+                echo "<td>{$orderTime}</td>";
                 echo "<td>";
 
                 // read one record
