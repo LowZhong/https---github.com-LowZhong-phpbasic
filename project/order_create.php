@@ -17,14 +17,13 @@
         // include database connection
         include 'database/connection.php';
         // define variables and set to empty values
-        $orderIDErr = $userNameErr = $orderTimeErr = $product1Err = $qty1Err = $product2Err = $qty2Err = $product3Err = $qty3Err = "";
-        $orderID = $userName = $orderTime = $product1 = $qty1 = $product2 = $qty2 = $product3 = $qty3 = "";
+        $orderID = $username = $orderTime = $product1 = $qty1 = $product2 = $qty2 = $product3 = $qty3 = "";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             include 'database/function.php';
             // posted values
 
-            $userName = $_POST['userName'];
+            $username = $_POST['username'];
             $product1 = $_POST['product1'];
             $qty1 = $_POST['qty1'];
             $product2 = $_POST['product2'];
@@ -40,29 +39,26 @@
                 return $data;
             }
 
-            $error['userName'] = validateOrderusername($userName);
+
+            $error['username'] = validateUsername($username);
 
             $error = array_filter($error);
             if (empty($error)) {
 
                 try {
                     // insert query
-                    $query = "INSERT INTO order_summary ('userName') VALUES(?)";
+                    $query = "INSERT INTO order_summary ('username') VALUES(?)";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
                     //$stmt->bindParam(':orderID', $orderID);
-                    $stmt->bindParam(1, $userName);
+                    $stmt->bindParam(1, $username);
                     /*$stmt->bindParam(':product1', $product1);
                     $stmt->bindParam(':product2', $product2);
                     $stmt->bindParam(':product3', $product3);
                     $stmt->bindParam(':qty1', $qty1);
                     $stmt->bindParam(':qty2', $qty2);
                     $stmt->bindParam(':qty3', $qty3);*/
-                    // specify when this record was inserted to the database
-                    /*date_default_timezone_set("Asia/Kuala_Lumpur");
-                    $orderTime = date('Y-m-d H:i:s');
-                    $stmt->bindParam(':orderTime', $orderTime);*/
 
                     // Execute the query
                     if ($stmt->execute()) {
@@ -91,7 +87,7 @@
 
                     <tr>
                         <td>Username</td>
-                        <td><input type='text' name='userName' class='form-control' value="<?php echo $userName; ?>" /></td>
+                        <td><input type='text' name='username' class='form-control' value="<?php echo $username; ?>" /></td>
                     </tr>
 
                     <?php
