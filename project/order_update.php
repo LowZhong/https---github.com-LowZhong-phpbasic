@@ -36,7 +36,7 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $orderDetailsID = isset($_GET['orderDetailsID']) ? $_GET['orderDetailsID'] : die('ERROR: Record ID not found.');
+        $orderID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record ID not found.');
 
         //include database connection
         include 'database/connection.php';
@@ -45,11 +45,11 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT * FROM order_details WHERE orderDetailsID = ? LIMIT 0,1";
+            $query = "SELECT * FROM order_details WHERE orderID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
-            $stmt->bindParam(1, $orderDetailsID);
+            $stmt->bindParam(1, $orderID);
 
             // execute our query
             $stmt->execute();
@@ -58,11 +58,9 @@
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // values to fill up our form
-            $orderDetailsID = $_POST('orderDetailsID');
             $orderID = $_POST('orderID');
             $product = $_POST('product');
             $quantity = $_POST('quantity');
-            $price = $_POST('price');
         }
 
         // show error
@@ -80,18 +78,16 @@
                 // write update query
                 // in this case, it seemed like we have so many fields to pass and
                 // it is better to label them and not use question marks
-                $query = "UPDATE order_summary, order_details SET * WHERE id = :id";
+                $query = "UPDATE order_summary, order_details SET * WHERE orderID = :orderID";
                 // prepare query for excecution
                 $stmt = $con->prepare($query);
 
                 // posted values
-                $orderDetailsID = htmlspecialchars(strip_tags($_POST['orderDetailsID']));
                 $orderID = htmlspecialchars(strip_tags($_POST['orderID']));
                 $product = htmlspecialchars(strip_tags($_POST['product']));
                 $quantity = htmlspecialchars(strip_tags($_POST['quantity']));
 
                 // bind the parameters
-                $stmt->bindParam(':orderDetailsID', $orderDetailsID);
                 $stmt->bindParam(':orderID', $orderID);
                 $stmt->bindParam(':product', $product);
                 $stmt->bindParam(':quantity', $quantity);
@@ -107,17 +103,14 @@
             catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
             }
-        } ?>
+        } 
+        ?>
 
 
 
         <!--we have our html form here where new record information can be updated-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?orderDetailsID={$orderDetailsID}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?orderID={$orderID}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
-                <tr>
-                    <td>orderDetailsID</td>
-                    <td><?php echo htmlspecialchars($orderDetailsID, ENT_QUOTES);  ?></td>
-                </tr>
                 <tr>
                     <td>orderID</td>
                     <td><?php echo htmlspecialchars($orderID, ENT_QUOTES);  ?></td>

@@ -75,14 +75,15 @@ function validateAge($year, $birthdate)
 }
 
 // customer_read function
-function starsign($month, $day) {
-    if(($month == 3 && $day >20) || ($month == 4 && $day < 20)) {
+function starsign($month, $day)
+{
+    if (($month == 3 && $day > 20) || ($month == 4 && $day < 20)) {
         echo "Aries";
     } else if (($month == 4 && $day > 19) || ($month == 5 && $day < 21)) {
-        echo "Taurus"; 
+        echo "Taurus";
     } else if (($month == 5 && $day > 20) || ($month == 6 && $day < 21)) {
         echo "Gemini";
-    } else if (($month == 6 && $day > 20) || ($month == 7 && $day <23)) {
+    } else if (($month == 6 && $day > 20) || ($month == 7 && $day < 23)) {
         echo "cancer";
     } else if (($month == 7 && $day > 22) || ($month == 8 && $day < 23)) {
         echo "Leo";
@@ -98,22 +99,23 @@ function starsign($month, $day) {
         echo "Capricorn";
     } else if (($month == 1 && $day > 19) || ($month == 2 && $day < 19)) {
         echo "Aquarius";
-    } else if (($month == 2 && $day >18) || ($month == 3 && $day  < 21)) {
+    } else if (($month == 2 && $day > 18) || ($month == 3 && $day  < 21)) {
         echo "Pisces";
     }
 }
 
 function animalYear($year)
 {
-    $animalyear = array( "Chicken", "Monkey", "Dog", "Pig", "Mouse", "Cow", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat");
+    $animalyear = array("Chicken", "Monkey", "Dog", "Pig", "Mouse", "Cow", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat");
 
     $show = $year % 12;
 
     echo $animalyear[$show];
 }
 
-function sex($gender){
-    if ($gender == "male"){
+function sex($gender)
+{
+    if ($gender == "male") {
         return "<img src='images/male_symbol.png' width=30 alt='male'/>";
     } else {
         return "<img src='images/female_symbol.png' width=30 alt='female'/>";
@@ -129,8 +131,17 @@ function validateOrderusername($userName){
     }
 }*/
 
-function orderproduct($product1, $product2, $product3){
-    if ($product1 . $product2 . $product3 = null){
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+function orderproduct($product1, $product2, $product3)
+{
+    if ($product1 . $product2 . $product3 = null) {
         return 'Please fill up the Product';
-    } 
+    }
 }
