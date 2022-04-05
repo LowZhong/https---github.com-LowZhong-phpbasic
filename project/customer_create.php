@@ -32,7 +32,6 @@
             $year = $_POST['year'];
             $month = $_POST['month'];
             $day = $_POST['day'];
-            
             $birthdate = "$year/$month/$day";
             $gender = $_POST['gender'];
             $status = $_POST['status'];
@@ -201,12 +200,12 @@
                 <tr>
                     <td>
                         Account status
-                        <input class="form-check-input" type="radio" name="status" id="status" value="active">
+                        <input class="form-check-input" type="radio" name="status" <?php if ($status == "active") echo 'checked' ?> value="active">
                         <label class="form-check-label" for="status">
                             Active
                         </label>
 
-                        <input class="form-check-input" type="radio" name="status" id="status" value="disabled">
+                        <input class="form-check-input" type="radio" name="status" <?php if ($status == "disabled") echo 'checked' ?>value="disabled">
                         <label class="form-check-label" for="status">
                             Disabled
                         </label>

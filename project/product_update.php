@@ -39,6 +39,7 @@
 
         //include database connection
         include 'database/connection.php';
+        include 'database/function.php';
 
         // read current record's data
         try {
@@ -76,11 +77,11 @@
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><textarea name='description' class='form-control'><?php echo htmlspecialchars($description, ENT_QUOTES);  ?></textarea></td>
+                    <td><textarea name='description' class='form-control'><?php echo htmlspecialchars($description, ENT_QUOTES); ?></textarea></td>
                 </tr>
                 <tr>
                     <td>Price</td>
-                    <td><input type='text' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><input type='text' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES);  ?>" class='form-control' value="<?php echo $price; ?>" /></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -97,12 +98,16 @@
         // check if form was submitted
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+            // posted values
+            $name = htmlspecialchars(strip_tags($_POST['name']));
+            $description = htmlspecialchars(strip_tags($_POST['description']));
+            $price = htmlspecialchars(strip_tags($_POST['price']));
+
             $error['name'] = validatename($name);
             $error['price'] = validatePrice($price);
             $error = array_filter($error);
 
             if (empty($error)) {
-
 
                 try {
                     // write update query
@@ -111,11 +116,6 @@
                     $query = "UPDATE products SET name=:name, description=:description, price=:price WHERE id = :id";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
-
-                    // posted values
-                    $name = htmlspecialchars(strip_tags($_POST['name']));
-                    $description = htmlspecialchars(strip_tags($_POST['description']));
-                    $price = htmlspecialchars(strip_tags($_POST['price']));
 
                     // bind the parameters
                     $stmt->bindParam(':name', $name);
@@ -139,10 +139,6 @@
                 }
             }
         }
-
-
-
-
 
         ?>
 

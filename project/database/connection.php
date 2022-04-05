@@ -8,7 +8,7 @@ $password = "Bm)i@MnOM6D!J4_J";
 try {
     $con = new
         PDO("mysql:host={$host};dbname={$db_name}", $username, $password);
-    echo "Connected successfully <br/>";
+    //echo "Connected successfully <br/>";
 }
 
 // show error

@@ -45,7 +45,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT username, email, password, firstname, lastname, gender, birthdate FROM customer WHERE username = ? LIMIT 0,1";
+            $query = "SELECT * FROM customer WHERE username = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -62,7 +62,8 @@
             $lastname = $row['lastname'];
             $gender = $row['gender'];
             $birthdate = $row['birthdate'];
-            /*$starsign = $row['animalyear'];*/
+            //$inputconfirmPassword = $row['inputconfirmPassword'];
+            $status = $row['status'];
         }
 
         // show error
@@ -87,6 +88,10 @@
                     <td><textarea name='password' class='form-control'><?php echo htmlspecialchars($password, ENT_QUOTES);  ?></textarea></td>
                 </tr>
                 <tr>
+                    <td>Confirm Password</td>
+                    <td><textarea name='inputconfirmPassword' id="inputconfirmPassword" class='form-control'><?php echo htmlspecialchars($inputconfirmPassword, ENT_QUOTES);  ?></textarea></td>
+                </tr>
+                <tr>
                     <td>Firstname</td>
                     <td><textarea name='firstname' class='form-control'><?php echo htmlspecialchars($firstname, ENT_QUOTES);  ?></textarea></td>
                 </tr>
@@ -96,11 +101,70 @@
                 </tr>
                 <tr>
                     <td>Gender</td>
-                    <td><textarea name='gender' class='form-control'><?php echo htmlspecialchars($gender, ENT_QUOTES);  ?></textarea></td>
+                    <td><input class="form-check-input" type="radio" name="gender" id="gender" <?php if ($gender == "male") echo 'checked' ?> value="male">
+                        <label class="form-check-label" for="gender">
+                            Male
+                        </label>
+                        <input class="form-check-input" type="radio" name="gender" id="gender" <?php if ($gender == "female") echo 'checked' ?>value="female">
+                        <label class="form-check-label" for="gender">
+                            Female
+                        </label>
+                    </td>
                 </tr>
+
+                <tr>
+                    <td>Account Status</td>
+                    <td><input class="form-check-input" type="radio" name="status" id="status" <?php if ($status == "active") echo 'checked' ?> value="active">
+                        <label class="form-check-label" for="status">
+                            Active
+                        </label>
+                        <input class="form-check-input" type="radio" name="status" id="status" <?php if ($status == "disabled") echo 'checked' ?>value="disabled">
+                        <label class="form-check-label" for="status">
+                            Disabled
+                        </label>
+                    </td>
+                </tr>
+
                 <tr>
                     <td>Date Of Birth</td>
-                    <td><textarea name='birthdate' class='form-control'><?php echo htmlspecialchars($birthdate, ENT_QUOTES);  ?></textarea></td>
+                    <td>
+                        <?php
+
+
+                        echo '<select id="day" name="day">' . "\n";
+                        for ($i_day = 1; $i_day <= 31; $i_day++) {
+                            $selected = ($birthdate == $i_day ? ' selected' : '');
+                            echo '<option value="' . $i_day . '"' . $selected . '>' . $i_day . '</option>' . "\n";
+                        }
+                        echo '</select>' . "\n";
+                        ?>
+
+                        <!--month-->
+                        <?php
+
+
+                        echo '<select id="month" name="month">' . "\n";
+                        for ($i_month = 1; $i_month <= 12; $i_month++) {
+                            $selected = ($birthdate == $i_month ? ' selected' : '');
+                            echo '<option value="' . $i_month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $i_month)) . '</option>' . "\n";
+                        }
+                        echo '</select>' . "\n";
+                        ?>
+
+                        <!--year-->
+                        <?php
+                        $year_start  = 2022;
+
+                        $birthdate = 2022;
+
+                        echo '<select id="year" name="year">' . "\n";
+                        for ($i_year = $year_start; $i_year >= 1990; $i_year--) {
+                            $selected = ($birthdate == $i_year ? ' selected' : '');
+                            echo '<option value="' . $i_year . '"' . $selected . '>' . $i_year . '</option>' . "\n";
+                        }
+                        echo '</select>' . "\n";
+                        ?>
+                    </td>
                 </tr>
                 <tr>
                     <td></td>
@@ -114,46 +178,60 @@
 
         <!-- PHP post to update record will be here -->
         <?php
+        $username = $firstname = $lastname = $password = $inputconfirmPassword = $birthdate = $gender = $status = $starsign = $email = "";
         // check if form was submitted
-        if ($_POST) {
-            try {
-                // write update query
-                // in this case, it seemed like we have so many fields to pass and
-                // it is better to label them and not use question marks
-                $query = "UPDATE customer SET username=:username, email=:email, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, birthdate=:birthdate WHERE username = :username";
-                // prepare query for excecution
-                $stmt = $con->prepare($query);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-                // posted values
-                $username = htmlspecialchars(strip_tags($_POST['username']));
-                $email = htmlspecialchars(strip_tags($_POST['email']));
-                $password = htmlspecialchars(strip_tags($_POST['password']));
-                $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
-                $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
-                $gender = htmlspecialchars(strip_tags($_POST['gender']));
-                $birthdate = htmlspecialchars(strip_tags($_POST['birthdate']));
+            // posted values 
+            $username = htmlspecialchars(strip_tags($_POST['username']));
+            $email = htmlspecialchars(strip_tags($_POST['email']));
+            $password = htmlspecialchars(strip_tags($_POST['password']));
+            $inputconfirmPassword = htmlspecialchars(strip_tags($_POST['inputconfirmPassword']));
+            $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
+            $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
+            $gender = htmlspecialchars(strip_tags($_POST['gender']));
+            $birthdate = htmlspecialchars(strip_tags($_POST['birthdate']));
 
-                // bind the parameters
-                $stmt->bindParam(':username', $username);
-                $stmt->bindParam(':email', $email);
-                $stmt->bindParam(':password', $password);
-                $stmt->bindParam(':firstname', $firstname);
-                $stmt->bindParam(':lastname', $lastname);
-                $stmt->bindParam(':gender', $gender);
-                $stmt->bindParam(':birthdate', $birthdate);
+            $error['username'] = validateUsername($username); //array call function
+            $error['password'] = validatePassword($password, $inputconfirmPassword);
+            $error['birthdate'] = validateAge($year, $birthdate);
+            $error = array_filter($error);
 
-                // Execute the query
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was updated.</div>";
-                } else {
-                    echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+            if (empty($error)) {
+                try {
+                    // write update query
+                    $query = "UPDATE customer SET username=:username, email=:email, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, birthdate=:birthdate WHERE username = :username";
+                    // prepare query for excecution
+                    $stmt = $con->prepare($query);
+
+                    // bind the parameters
+                    $stmt->bindParam(':username', $username);
+                    $stmt->bindParam(':email', $email);
+                    //$stmt->bindParam(':inputconfirmPassword', $inputconfirmPassword);
+                    $stmt->bindParam(':password', $password);
+                    $stmt->bindParam(':firstname', $firstname);
+                    $stmt->bindParam(':lastname', $lastname);
+                    $stmt->bindParam(':gender', $gender);
+                    $stmt->bindParam(':birthdate', $birthdate);
+
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was updated.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    }
+                }
+                // show errors
+                catch (PDOException $exception) {
+                    die('ERROR: ' . $exception->getMessage());
+                }
+            } else {
+                foreach ($error as $value) {
+                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
                 }
             }
-            // show errors
-            catch (PDOException $exception) {
-                die('ERROR: ' . $exception->getMessage());
-            }
-        } ?>
+        }
+        ?>
 
 
     </div>
