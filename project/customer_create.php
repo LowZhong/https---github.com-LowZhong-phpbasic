@@ -179,6 +179,7 @@
                             echo '<option value="' . $i_month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $i_month)) . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
+                        if((isset($_GET['month']))&&($value))
                         ?>
 
                         <!--year-->

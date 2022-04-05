@@ -45,7 +45,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT * FROM customer WHERE username = ? LIMIT 0,1";
+            $query = "SELECT username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year , status FROM customer WHERE username = ? ";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -61,7 +61,10 @@
             $firstname = $row['firstname'];
             $lastname = $row['lastname'];
             $gender = $row['gender'];
-            $birthdate = $row['birthdate'];
+            $lastname = $row['lastname'];
+            $year = $row['year'];
+            $month = $row['month'];
+            $day = $row['day'];
             //$inputconfirmPassword = $row['inputconfirmPassword'];
             $status = $row['status'];
         }
@@ -77,23 +80,23 @@
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><input name='username' <?php echo htmlspecialchars($username, ENT_QUOTES);?> class='form-control' value="<?php echo $username; ?>"/></td>
+                    <td><input name='username' <?php echo htmlspecialchars($username, ENT_QUOTES); ?> class='form-control' value="<?php echo $username; ?>" /></td>
                 </tr>
                 <tr>
                     <td>Email</td>
-                    <td><input name='email' <?php echo htmlspecialchars($email, ENT_QUOTES);?> class='form-control' value="<?php echo $email; ?>"/></td>
+                    <td><input name='email' <?php echo htmlspecialchars($email, ENT_QUOTES); ?> class='form-control' value="<?php echo $email; ?>" /></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input name='password' <?php echo htmlspecialchars($password, ENT_QUOTES);?> class='form-control' value="<?php echo $password; ?>"/></td>
+                    <td><input name='password' <?php echo htmlspecialchars($password, ENT_QUOTES); ?> class='form-control' value="<?php echo $password; ?>" /></td>
                 </tr>
                 <tr>
                     <td>Firstname</td>
-                    <td><input name='firstname' <?php echo htmlspecialchars($firstname, ENT_QUOTES);?> class='form-control' value="<?php echo $firstname; ?>"/></td>
+                    <td><input name='firstname' <?php echo htmlspecialchars($firstname, ENT_QUOTES); ?> class='form-control' value="<?php echo $firstname; ?>" /></td>
                 </tr>
                 <tr>
                     <td>lastname</td>
-                    <td><input name='lastname' <?php echo htmlspecialchars($lastname, ENT_QUOTES);?> class='form-control' value="<?php echo $lastname; ?>"/></td>
+                    <td><input name='lastname' <?php echo htmlspecialchars($lastname, ENT_QUOTES); ?> class='form-control' value="<?php echo $lastname; ?>" /></td>
                 </tr>
                 <tr>
                     <td>Gender</td>
@@ -123,14 +126,14 @@
 
                 <tr>
                     <td>Date Of Birth</td>
+                    <!--day-->
                     <td>
                         <?php
 
-
                         echo '<select id="day" name="day">' . "\n";
-                        for ($i_day = 1; $i_day <= 31; $i_day++) {
-                            $selected = ($birthdate == $i_day ? ' selected' : '');
-                            echo '<option value="' . $i_day . '"' . $selected . '>' . $i_day . '</option>' . "\n";
+                        for ($day = 1; $day <= 31; $day++) {
+                            $selected = ($birthdate == $day ? ' selected' : '');
+                            echo '<option value="' . $day . '"' . $selected . '>' . $day . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
                         ?>
@@ -138,30 +141,28 @@
                         <!--month-->
                         <?php
 
-
                         echo '<select id="month" name="month">' . "\n";
-                        for ($i_month = 1; $i_month <= 12; $i_month++) {
-                            $selected = ($birthdate == $i_month ? ' selected' : '');
-                            echo '<option value="' . $i_month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $i_month)) . '</option>' . "\n";
+                        for ($month = 1; $month <= 12; $month++) {
+                            $selected = ($birthdate == $month ? ' selected' : '');
+                            echo '<option value="' . $month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $month)) . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
+                        if ((isset($_GET['month'])) && ($value))
                         ?>
 
                         <!--year-->
                         <?php
                         $year_start  = 2022;
-
                         $birthdate = 2022;
 
                         echo '<select id="year" name="year">' . "\n";
-                        for ($i_year = $year_start; $i_year >= 1990; $i_year--) {
-                            $selected = ($birthdate == $i_year ? ' selected' : '');
-                            echo '<option value="' . $i_year . '"' . $selected . '>' . $i_year . '</option>' . "\n";
+                        for ($year = $year_start; $year >= 1990; $year--) {
+                            $selected = ($birthdate == $year ? ' selected' : '');
+                            echo '<option value="' . $year . '"' . $selected . '>' . $year . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
                         ?>
                     </td>
-                </tr>
                 <tr>
                     <td></td>
                     <td>
@@ -185,8 +186,10 @@
             //$inputconfirmPassword = htmlspecialchars(strip_tags($_POST['inputconfirmPassword']));
             $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
             $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
+            $year = htmlspecialchars(strip_tags($_POST['year']));
             $gender = htmlspecialchars(strip_tags($_POST['gender']));
-            //$birthdate = htmlspecialchars(strip_tags($_POST['birthdate']));
+            $birthdate = htmlspecialchars(strip_tags($_POST['day'])) . "." . htmlspecialchars(strip_tags($_POST['month'])) . "." . htmlspecialchars(strip_tags($_POST['year']));
+
 
             $error['username'] = validateUsername($username); //array call function
             $error['password'] = validateOrderPassword($password);

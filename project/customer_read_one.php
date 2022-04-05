@@ -90,6 +90,10 @@
                 <td><?php echo htmlspecialchars($gender, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
+                <td>Status</td>
+                <td><?php echo htmlspecialchars($status, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
                 <td>Date Of Birth</td>
                 <td><?php echo htmlspecialchars($birthdate, ENT_QUOTES);  ?></td>
             </tr>
