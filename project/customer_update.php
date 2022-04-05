@@ -88,10 +88,6 @@
                     <td><textarea name='password' class='form-control'><?php echo htmlspecialchars($password, ENT_QUOTES);  ?></textarea></td>
                 </tr>
                 <tr>
-                    <td>Confirm Password</td>
-                    <td><textarea name='inputconfirmPassword' id="inputconfirmPassword" class='form-control'><?php echo htmlspecialchars($inputconfirmPassword, ENT_QUOTES);  ?></textarea></td>
-                </tr>
-                <tr>
                     <td>Firstname</td>
                     <td><textarea name='firstname' class='form-control'><?php echo htmlspecialchars($firstname, ENT_QUOTES);  ?></textarea></td>
                 </tr>
@@ -186,11 +182,11 @@
             $username = htmlspecialchars(strip_tags($_POST['username']));
             $email = htmlspecialchars(strip_tags($_POST['email']));
             $password = htmlspecialchars(strip_tags($_POST['password']));
-            $inputconfirmPassword = htmlspecialchars(strip_tags($_POST['inputconfirmPassword']));
+            //$inputconfirmPassword = htmlspecialchars(strip_tags($_POST['inputconfirmPassword']));
             $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
             $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
             $gender = htmlspecialchars(strip_tags($_POST['gender']));
-            $birthdate = htmlspecialchars(strip_tags($_POST['birthdate']));
+            //$birthdate = htmlspecialchars(strip_tags($_POST['birthdate']));
 
             $error['username'] = validateUsername($username); //array call function
             $error['password'] = validatePassword($password, $inputconfirmPassword);
@@ -207,7 +203,6 @@
                     // bind the parameters
                     $stmt->bindParam(':username', $username);
                     $stmt->bindParam(':email', $email);
-                    //$stmt->bindParam(':inputconfirmPassword', $inputconfirmPassword);
                     $stmt->bindParam(':password', $password);
                     $stmt->bindParam(':firstname', $firstname);
                     $stmt->bindParam(':lastname', $lastname);

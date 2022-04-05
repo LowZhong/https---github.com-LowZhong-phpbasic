@@ -31,6 +31,21 @@ function validateUsername($username)
     }
 }
 
+function validateOrderPassword($password)
+{
+    if ($password == null) {
+        return 'Please enter password';
+    } else if (strlen($password) < 6) { //password length
+        return 'password must at least 6 character'; //return error msg
+    } else if (!preg_match('@[A-Z]@', $password)) {
+        return 'password must contain at least a capital letter.';
+    } else if (!preg_match('@[a-z]@', $password)) {
+        return 'password must contain at least a small letter.';
+    } else if (!preg_match('@[0-9]@', $password)) { //preg.checking format
+        return 'password must contain at least a number.';
+    }
+}
+
 function validatePassword($password, $inputconfirmPassword)
 {
     if ($password == null) {
