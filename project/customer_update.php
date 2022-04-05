@@ -77,23 +77,23 @@
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><input type='text' name='username' value="<?php echo htmlspecialchars($username, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td><input name='username' <?php echo htmlspecialchars($username, ENT_QUOTES);?> class='form-control' value="<?php echo $username; ?>"/></td>
                 </tr>
                 <tr>
                     <td>Email</td>
-                    <td><textarea type='text' name='email' class='form-control'><?php echo htmlspecialchars($email, ENT_QUOTES);  ?></textarea></td>
+                    <td><input name='email' <?php echo htmlspecialchars($email, ENT_QUOTES);?> class='form-control' value="<?php echo $email; ?>"/></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><textarea name='password' class='form-control'><?php echo htmlspecialchars($password, ENT_QUOTES);  ?></textarea></td>
+                    <td><input name='password' <?php echo htmlspecialchars($password, ENT_QUOTES);?> class='form-control' value="<?php echo $password; ?>"/></td>
                 </tr>
                 <tr>
                     <td>Firstname</td>
-                    <td><textarea name='firstname' class='form-control'><?php echo htmlspecialchars($firstname, ENT_QUOTES);  ?></textarea></td>
+                    <td><input name='firstname' <?php echo htmlspecialchars($firstname, ENT_QUOTES);?> class='form-control' value="<?php echo $firstname; ?>"/></td>
                 </tr>
                 <tr>
                     <td>lastname</td>
-                    <td><textarea name='lastname' class='form-control'><?php echo htmlspecialchars($lastname, ENT_QUOTES);  ?></textarea></td>
+                    <td><input name='lastname' <?php echo htmlspecialchars($lastname, ENT_QUOTES);?> class='form-control' value="<?php echo $lastname; ?>"/></td>
                 </tr>
                 <tr>
                     <td>Gender</td>
@@ -189,7 +189,7 @@
             //$birthdate = htmlspecialchars(strip_tags($_POST['birthdate']));
 
             $error['username'] = validateUsername($username); //array call function
-            $error['password'] = validatePassword($password, $inputconfirmPassword);
+            $error['password'] = validateOrderPassword($password);
             $error['birthdate'] = validateAge($year, $birthdate);
             $error = array_filter($error);
 

@@ -73,7 +73,7 @@
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Name</td>
-                    <td><input type='text' name='name' value="<?php echo htmlspecialchars($name, ENT_QUOTES);  ?>" class='form-control' value="<?php echo $name; ?>" /></td>
+                    <td><input type='text' name='name' <?php echo htmlspecialchars($name, ENT_QUOTES);  ?> class='form-control' value="<?php echo $name; ?>" /></td>
                 </tr>
                 <tr>
                     <td>Description</td>
