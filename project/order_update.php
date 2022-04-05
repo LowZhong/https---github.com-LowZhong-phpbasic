@@ -40,11 +40,12 @@
 
         //include database connection
         include 'database/connection.php';
+        include 'database/function.php';
 
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT product, quantity FROM order_details WHERE orderDetailsID = ? LIMIT 0,1";
+            $query = "SELECT * FROM order_details WHERE orderDetailsID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -57,8 +58,11 @@
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // values to fill up our form
+            $orderDetailsID = $_POST('orderDetailsID');
+            $orderID = $_POST('orderID');
             $product = $_POST('product');
-            $product = $_POST('quantity');
+            $quantity = $_POST('quantity');
+            $price = $_POST('price');
         }
 
         // show error
@@ -66,7 +70,6 @@
             die('ERROR: ' . $exception->getMessage());
         }
         ?>
-
 
         <!-- HTML form to update record will be here -->
         <!-- PHP post to update record will be here -->
@@ -82,7 +85,7 @@
                 $stmt = $con->prepare($query);
 
                 // posted values
-                $name = htmlspecialchars(strip_tags($_POST['name']));
+                $orderDetailsID = htmlspecialchars(strip_tags($_POST['orderDetailsID']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
 
@@ -110,16 +113,20 @@
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?orderDetailsID={$orderDetailsID}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Name</td>
-                    <td><input type='text' name='name' value="<?php echo htmlspecialchars($name, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td>orderDetailsID</td>
+                    <td><?php echo htmlspecialchars($orderDetailsID, ENT_QUOTES);  ?></td>
                 </tr>
                 <tr>
-                    <td>Description</td>
-                    <td><textarea name='description' class='form-control'><?php echo htmlspecialchars($description, ENT_QUOTES);  ?></textarea></td>
+                    <td>orderID</td>
+                    <td><?php echo htmlspecialchars($orderID, ENT_QUOTES);  ?></td>
                 </tr>
                 <tr>
-                    <td>Price</td>
-                    <td><input type='text' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES);  ?>" class='form-control' /></td>
+                    <td>Product</td>
+                    <td><input type='text' name='product' value="<?php echo htmlspecialchars($product, ENT_QUOTES);  ?>" class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Quantity</td>
+                    <td><input type='text' name='product' value="<?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td></td>
