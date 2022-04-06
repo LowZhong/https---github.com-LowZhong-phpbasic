@@ -95,9 +95,10 @@
 
         <!-- PHP post to update record will be here -->
         <?php
+        $name = $description = $price = "";
         // check if form was submitted
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+            
             // posted values
             $name = htmlspecialchars(strip_tags($_POST['name']));
             $description = htmlspecialchars(strip_tags($_POST['description']));
