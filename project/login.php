@@ -22,6 +22,8 @@
             include 'database/function.php';
             //get the key first
 
+            $login_username = $login_password ="";
+
             $login_username = $_POST['username'];
             $login_password = $_POST['password'];
 
@@ -52,12 +54,12 @@
                 <tr>
                     <td>Username</td>
                     <td>
-                        <input type='text' name='username' class='form-control' />
+                        <input type='text' name='username' class='form-control' value="<?php echo $username; ?>" />
                     </td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type='text' name='password' class='form-control' />
+                    <td><input type='text' name='password' class='form-control' value="<?php echo $username; ?>"/>
                     </td>
                 </tr>
                 <tr>
