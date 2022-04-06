@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type='text' name='password' class='form-control' value="<?php echo $username; ?>"/>
+                    <td><input type='password' name='password' class='form-control' value="<?php echo $username; ?>"/>
                     </td>
                 </tr>
                 <tr>
