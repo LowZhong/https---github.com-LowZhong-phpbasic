@@ -74,6 +74,20 @@ function validateAge($year, $birthdate)
     }
 }
 
+function validateGender($gender)
+{
+    if (empty($_POST["gender"])) {
+        return 'Please Select Your gender.';
+    }
+}
+
+function validateStatus($status)
+{
+    if (empty($_POST["status"])) {
+        return 'Please Select Your status.';
+    }
+}
+
 // customer_read function
 function starsign($month, $day)
 {

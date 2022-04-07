@@ -29,14 +29,6 @@
             $error['name'] = validatename($name);
             $error['price'] = validatePrice($price);
 
-            function test_input($data)
-            {
-                $data = trim($data);
-                $data = stripslashes($data);
-                $data = htmlspecialchars($data);
-                return $data;
-            }
-
             $error = array_filter($error);
             if (empty($error)) {
 

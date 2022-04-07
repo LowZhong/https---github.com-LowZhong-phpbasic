@@ -17,7 +17,7 @@
         // define variables and set to empty values
         //$usernameErr = $firstnameErr = $lastnameErr = $passwordErr = $inputconfirmPasswordErr = $birthdateErr = $genderErr = $statusErr = $starsignErr = "";
         $username = $firstname = $lastname = $password = $inputconfirmPassword = $birthdate = $gender = $status = $starsign = $email = "";
-        
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // include database connection
             include 'database/connection.php';
@@ -33,26 +33,18 @@
             $month = $_POST['month'];
             $day = $_POST['day'];
             $birthdate = "$year/$month/$day";
-            $gender = $_POST['gender'];
-            $status = $_POST['status'];
-            //$starsign = $_POST['starsign'];
-            $stmt = $con->prepare("SELECT * FROM customer WHERE username=?");
+            $stmt = $con->prepare("SELECT * FROM customer WHERE username= ?");
             //execute the statement
             $stmt->execute([$username]);
             //fetch result
             $user = $stmt->fetch();
 
+            //function
             $error['username'] = validateUsername($username); //array call function
             $error['password'] = validatePassword($password, $inputconfirmPassword);
             $error['birthdate'] = validateAge($year, $birthdate);
-
-            function test_input($data)
-            {
-                $data = trim($data);
-                $data = stripslashes($data);
-                $data = htmlspecialchars($data);
-                return $data;
-            }
+            $error['gender'] = validateGender($gender);
+            $error['status'] = validateStatus($status);
 
             $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
             if (empty($error)) { //array里面会有nullvalue如果没有clear null value系统以为他不是empty
@@ -100,65 +92,46 @@
             <table class='table table-hover table-responsive table-bordered'>
 
                 <tr>
-                    <td>
-                        <div class="col">
-                            <input type="text" name="username" id="username" class="form-control" placeholder="username" value="<?php echo $username; ?>">
-                        </div>
-                        <div class="col">
-                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name" value="<?php echo $firstname; ?>">
-                        </div>
+                    <td>Username</td>
+                    <td><input type="text" name="username" id="username" class="form-control" placeholder="username" value="<?php echo $username; ?>"></td>
+                </tr>
+                <tr>
+                    <td>Firstname</td>
+                    <td><input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name" value="<?php echo $firstname; ?>"></td>
+                </tr>
+                <tr>
+                    <td>Lastname</td>
+                    <td><input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name" value="<?php echo $lastname; ?>"></td>
+                </tr>
 
-                        <div class="col">
-                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name" value="<?php echo $lastname; ?>">
-                        </div>
+
+                <tr>
+                    <td>Gender</td>
+                    <td><input class="form-check-input" type="radio" name="gender" id="gender" <?php if ($gender == 'male') echo 'checked' ?> value="male">
+                        <label class="form-check-label" for="gender">Male</label>
+
+                        <input class="form-check-input" type="radio" name="gender" id="gender" <?php if ($gender == 'female') echo 'checked' ?> value="female">
+                        <label class="form-check-label" for="gender">female</label>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        gender
-                        <input class="form-check-input" type="radio" name="gender" id="gender"<?php if($gender == 'male') echo'checked'?> value="male" >
-                        <label class="form-check-label" for="gender">
-                            male
-                        </label>
-
-                        <input class="form-check-input" type="radio" name="gender" id="gender"<?php if($gender == 'female') echo'checked'?> value="female" >
-                        <label class="form-check-label" for="gender">
-                            female
-                        </label>
-                    </td>
+                    <td>Email</td>
+                    <td><input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>"></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="password" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>"></td>
+                </tr>
+                <tr>
+                    <td>Comfirm Password</td>
+                    <td><input type="password" class="form-control" id="inputconfirmPassword" name="inputconfirmPassword" placeholder="Password" value="<?php echo $inputconfirmPassword; ?>"></td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-                            <div class="col-sm-10">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="inputconfirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" id="inputconfirmPassword" name="inputconfirmPassword" placeholder="Password" value="<?php echo $inputconfirmPassword; ?>">
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        Date Of Birth
-                        <!--day-->
-                        <?php
+                    <td>Date Of Birth</td>
+                    <!--day-->
+                    <td><?php
                         $birthdate = date('d'); //current day
 
                         echo '<select id="day" name="day">' . "\n";
@@ -179,44 +152,43 @@
                             echo '<option value="' . $i_month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $i_month)) . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
-                        if((isset($_GET['month']))&&($value))
+                        if ((isset($_GET['month'])) && ($value))
                         ?>
 
                         <!--year-->
                         <?php
-                        $year_start  = 2022;
-                        $year_end = date('Y'); // current Year
-                        $birthdate = 2022;
+                    $year_start  = 2022;
+                    $year_end = date('Y'); // current Year
+                    $birthdate = 2022;
 
-                        echo '<select id="year" name="year">' . "\n";
-                        for ($i_year = $year_start; $i_year >= 1990; $i_year--) {
-                            $selected = ($birthdate == $i_year ? ' selected' : '');
-                            echo '<option value="' . $i_year . '"' . $selected . '>' . $i_year . '</option>' . "\n";
-                        }
-                        echo '</select>' . "\n";
+                    echo '<select id="year" name="year">' . "\n";
+                    for ($i_year = $year_start; $i_year >= 1990; $i_year--) {
+                        $selected = ($birthdate == $i_year ? ' selected' : '');
+                        echo '<option value="' . $i_year . '"' . $selected . '>' . $i_year . '</option>' . "\n";
+                    }
+                    echo '</select>' . "\n";
                         ?>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        Account status
-                        <input class="form-check-input" type="radio" name="status" <?php if ($status == "active") echo 'checked' ?> value="active">
-                        <label class="form-check-label" for="status">
-                            Active
-                        </label>
+                    <td>Account status</td>
+                    <td><input class="form-check-input" type="radio" name="status" <?php if ($status == "active") echo 'checked' ?> value="active">
+                        <label class="form-check-label" for="status">Active</label>
 
                         <input class="form-check-input" type="radio" name="status" <?php if ($status == "disabled") echo 'checked' ?>value="disabled">
-                        <label class="form-check-label" for="status">
-                            Disabled
-                        </label>
+                        <label class="form-check-label" for="status">Disabled</label>
                     </td>
                 </tr>
 
-                <td>
-                    <input type='submit' value='Save' class='btn btn-primary' />
-                    <a href='customer_read.php' class='btn btn-danger'>Back to read products</a>
-                </td>
+                <tr>
+                    <td>
+                    <td>
+                        <input type='submit' value='Save' class='btn btn-primary' />
+                        <a href='customer_read.php' class='btn btn-danger'>Back to Customer Read</a>
+                    </td>
+                    </td>
+                </tr>
             </table>
 
         </form>
