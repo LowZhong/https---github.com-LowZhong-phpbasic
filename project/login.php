@@ -28,7 +28,7 @@
             $login_password = $_POST['password'];
 
             if (empty($login_username) || empty($login_password)) { 
-                echo "empty";
+                echo "<div class='alert alert-danger'>Cannot Be Left Blank.</div>";
             } else {
                 // select all data
                 $query = "SELECT * FROM customer WHERE username = ?";
@@ -49,17 +49,17 @@
             }
         }
         ?>
-        <form action="login.php" method="post"> 
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post"> 
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
                     <td>
-                        <input type='text' name='username' class='form-control' value="<?php echo $username; ?>" />
+                        <input type='text' name='username' class='form-control'  />
                     </td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type='password' name='password' class='form-control' value="<?php echo $username; ?>"/>
+                    <td><input type='password' name='password' class='form-control' />
                     </td>
                 </tr>
                 <tr>

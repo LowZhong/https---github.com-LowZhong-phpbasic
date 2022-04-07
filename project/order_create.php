@@ -23,8 +23,12 @@
 
             // posted values
             $username = $_POST['username'];
-            //$product = $_POST['product'];
-            //$quantity = $_POST['quantity'];
+            $product = $_POST['product'];
+            $quantity = $_POST['quantity'];
+
+            if(count($quantity) != 0) {
+            echo("The array is empty."); //use this check empty array
+            }
             //$product2 = $_POST['product2'];
             //$qty2 = $_POST['qty2'];
             //$product3 = $_POST['product3'];
@@ -34,7 +38,7 @@
 
             try {
                 // insert query
-                $query = "INSERT INTO 'order_summary' ('username') VALUES(?)";
+                $query = "INSERT INTO order_summary (username) VALUES (?)";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
                 // bind the parameters
@@ -49,14 +53,14 @@
                 die('ERROR: ' . $exception->getMessage());
             }
             try {
-                $query = "INSERT INTO 'order_details' ('orderID', 'product', 'quantity') VALUES(?,?,?)";
+                $query = "INSERT INTO order_details (orderID, product, quantity) VALUES (?,?,?)";
 
                 //prepare query for execute
                 $stmt = $con->prepare($query);
                 //posted values
                 $stmt->bindParam(1, $last_order_id);
-                $stmt->bindParam(1, $product);
-                $stmt->bindParam(1, $quantity);
+                $stmt->bindParam(2, $product);
+                $stmt->bindParam(3, $quantity);
                 //execute the query
                 if ($stmt->execute()) {
                 }
@@ -89,7 +93,7 @@
                                 <td>Select Product ' . $x . '</td>
                                 <td>
                                 <div class="col">';
-                            echo "<select class='form_select' name='product" . $x . "' value='" . $product . "'>";
+                            echo "<select class='form_select' name='product[]" . $x . "' value='" . $product . "'>";
                             echo '<option selected>Product ' . $x . '</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 extract($row);
@@ -98,7 +102,7 @@
                             echo "</select>
                             </div>
                                 Quantity
-                                <input type='number' name='qty" . $x . "' class='form-control' value='" . $quantity . "' />";
+                                <input type='number' name='quantity[]" . $x . "' class='form-control' value='" . $quantity . "' />";
                         }
                         // show error
                         catch (PDOException $exception) {
