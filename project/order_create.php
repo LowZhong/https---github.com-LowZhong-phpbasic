@@ -21,17 +21,13 @@
         $orderID = $username = $product = $quantity = "";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+            
             // posted values
             $username = $_POST['username'];
             $product = $_POST['product'];
             $quantity = $_POST['quantity'];
             print_r($product);
             print_r($product);
-
-            //$product2 = $_POST['product2'];
-            //$qty2 = $_POST['qty2'];
-            //$product3 = $_POST['product3'];
-            //$qty3 = $_POST['qty3'];
             //$error['username'] = validateUsername($username);
             //$error = array_filter($error);
 
@@ -47,7 +43,7 @@
                     $last_order_id = $con->lastInsertId();
                     if ($last_order_id > 0) {
 
-                        foreach($product as $pkey){
+                        foreach( $product as $pkey){
                             echo $pkey;
 
                         
@@ -62,12 +58,16 @@
                                 $stmt->bindParam(3, $quantity[$pkey]);
                                 //execute the query
                                 if ($stmt->execute()) {
+                                   
                                 }
                             } catch (PDOException $exception) {
                                 die('ERROR: ' . $exception->getMessage());
                             }
                         }
-                    }
+                    } 
+                    echo "<div class='alert alert-success'>Record was saved.</div>";
+                } else {
+                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
                 }
             } catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
@@ -98,7 +98,7 @@
                                 <td>Select Product ' . $x . '</td>
                                 <td>
                                 <div class="col">';
-                            echo "<select class='form_select' name='pkey[]" . $x . "' value='" . $product . "'>";
+                            echo "<select class='form_select' name='product[]" . $x . "' value='" . $product . "'>";
                             echo '<option selected>Product ' . $x . '</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 extract($row);

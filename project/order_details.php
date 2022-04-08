@@ -18,19 +18,19 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $orderID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record Order ID not found.');
+        $orderDetailsID = isset($_GET['orderDetailsID']) ? $_GET['orderDetailsID'] : die('ERROR: Record Order ID not found.');
 
         //include database connection
         include 'database/connection.php';
         include 'database/function.php';
-        
+
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT orderID, product, quantity FROM order_details WHERE orderID = ? LIMIT 0,1";
+            $query = "SELECT orderDetailsID, orderID, product, quantity FROM order_details WHERE orderID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
             // this is the first question mark
-            $stmt->bindParam(1, $orderID);
+            $stmt->bindParam(1, $orderDetailsID);
             // execute our query
             $stmt->execute();
             // store retrieved row to a variable
@@ -47,6 +47,10 @@
         <!-- HTML read one record table will be here -->
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
+                <td>Order Detail ID</td>
+                <td><?php echo htmlspecialchars($orderDetailsID, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
                 <td>Order ID</td>
                 <td><?php echo htmlspecialchars($orderID, ENT_QUOTES);  ?></td>
             </tr>
@@ -62,9 +66,9 @@
                 <td>Quantity</td>
                 <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
             </tr>
-            
-                <td>Order Time</td>
-                <td><?php echo htmlspecialchars($orderTime, ENT_QUOTES);  ?></td>
+
+            <td>Order Time</td>
+            <td><?php echo htmlspecialchars($orderTime, ENT_QUOTES);  ?></td>
             </tr>
             <a href='order_listing.php' class='btn btn-danger'>Back to order list</a>
             </td>
