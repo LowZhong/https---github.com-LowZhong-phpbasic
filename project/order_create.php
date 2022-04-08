@@ -18,17 +18,16 @@
         include 'database/connection.php';
         include 'database/function.php';
         // define variables and set to empty values
-        $orderID = $username = $product = $quantity="";
+        $orderID = $username = $product = $quantity = "";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // posted values
             $username = $_POST['username'];
             $product = $_POST['product'];
             $quantity = $_POST['quantity'];
+            print_r($product);
+            print_r($product);
 
-            if(count($quantity) != 0) {
-            echo("The array is empty."); //use this check empty array
-            }
             //$product2 = $_POST['product2'];
             //$qty2 = $_POST['qty2'];
             //$product3 = $_POST['product3'];
@@ -47,22 +46,28 @@
                 if ($stmt->execute()) {
                     $last_order_id = $con->lastInsertId();
                     if ($last_order_id > 0) {
-                    }
-                }
-            } catch (PDOException $exception) {
-                die('ERROR: ' . $exception->getMessage());
-            }
-            try {
-                $query = "INSERT INTO order_details (orderID, product, quantity) VALUES (?,?,?)";
 
-                //prepare query for execute
-                $stmt = $con->prepare($query);
-                //posted values
-                $stmt->bindParam(1, $last_order_id);
-                $stmt->bindParam(2, $product);
-                $stmt->bindParam(3, $quantity);
-                //execute the query
-                if ($stmt->execute()) {
+                        foreach($product as $pkey){
+                            echo $pkey;
+
+                        
+                            try {
+                                $query = "INSERT INTO order_details (orderID, product, quantity) VALUES (?,?,?)";
+
+                                //prepare query for execute
+                                $stmt = $con->prepare($query);
+                                //posted values
+                                $stmt->bindParam(1, $last_order_id);
+                                $stmt->bindParam(2, $product);
+                                $stmt->bindParam(3, $quantity[$pkey]);
+                                //execute the query
+                                if ($stmt->execute()) {
+                                }
+                            } catch (PDOException $exception) {
+                                die('ERROR: ' . $exception->getMessage());
+                            }
+                        }
+                    }
                 }
             } catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
@@ -93,7 +98,7 @@
                                 <td>Select Product ' . $x . '</td>
                                 <td>
                                 <div class="col">';
-                            echo "<select class='form_select' name='product[]" . $x . "' value='" . $product . "'>";
+                            echo "<select class='form_select' name='pkey[]" . $x . "' value='" . $product . "'>";
                             echo '<option selected>Product ' . $x . '</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 extract($row);

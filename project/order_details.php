@@ -52,15 +52,15 @@
             </tr>
             <tr>
                 <td>Username</td>
-                <td><?php echo htmlspecialchars($userName, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>product</td>
-                <td><?php echo htmlspecialchars($product1, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($product, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Quantity</td>
-                <td><?php echo htmlspecialchars($qty1, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
             </tr>
             
                 <td>Order Time</td>

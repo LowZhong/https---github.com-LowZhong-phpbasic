@@ -23,7 +23,7 @@
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT orderID, userName, orderTime FROM order_summary ORDER BY orderID DESC";
+        $query = "SELECT orderID, username, orderTime FROM order_summary ORDER BY orderID DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -43,8 +43,8 @@
             //creating our table heading
             echo "<tr>";
             echo "<th>orderID</th>";
-            echo "<th>userName</th>";
-            echo "<th>orderTime</th>";
+            echo "<th>Username</th>";
+            echo "<th>Ordertime</th>";
             echo "</tr>";
 
             // table body will be here
@@ -59,7 +59,7 @@
                 // creating new table row per record
                 echo "<tr>";
                 echo "<td>{$orderID}</td>";
-                echo "<td>{$userName}</td>";
+                echo "<td>{$username}</td>";
                 echo "<td>{$orderTime}</td>";
                 echo "<td>";
 

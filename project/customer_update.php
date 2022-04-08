@@ -37,6 +37,7 @@
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
         $user_name = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record ID not found.');
+        $username = $firstname = $lastname = $password = $inputconfirmPassword = $birthdate = $gender = $status = $starsign = $email = "";
 
         //include database connection
         include 'database/connection.php';
@@ -178,7 +179,7 @@
         $username = $firstname = $lastname = $password = $inputconfirmPassword = $birthdate = $gender = $status = $starsign = $email = "";
         // check if form was submitted
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+            
             // posted values 
             $username = htmlspecialchars(strip_tags($_POST['username']));
             $email = htmlspecialchars(strip_tags($_POST['email']));
