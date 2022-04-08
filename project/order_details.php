@@ -18,7 +18,7 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $orderDetailsID = isset($_GET['orderDetailsID']) ? $_GET['orderDetailsID'] : die('ERROR: Record Order ID not found.');
+        $orderDetailsID = isset($_GET['orderDetailsID']) ? $_GET['orderDetailsID'] : die('ERROR: Record Order Detail ID not found.');
 
         //include database connection
         include 'database/connection.php';
