@@ -24,7 +24,7 @@
             
             // posted values
             $username = $_POST['username'];
-            $product = $_POST['product'];
+            $productID = $_POST['productID'];
             $quantity = $_POST['quantity'];
             print_r($product);
 
@@ -49,17 +49,17 @@
                             //foreach( $product as $pkey){
                                 //echo $pkey;
 
-                                for ($i = 0; $i < count($product); $i++) {
+                                for ($i = 0; $i < count($productID); $i++) {
 
                                     
                                     try {
-                                        $query = "INSERT INTO order_details (orderID, product, quantity) VALUES (:lastorderid, :product, :quantity)";
+                                        $query = "INSERT INTO order_details (orderID, productID, quantity) VALUES (:lastorderid, :productID, :quantity)";
 
                                         //prepare query for execute
                                         $stmt = $con->prepare($query);
                                         //posted values
                                         $stmt->bindParam(":lastorderid", $last_order_id);
-                                        $stmt->bindParam(":product", $product[$i]);
+                                        $stmt->bindParam(":product", $productID[$i]);
                                         $stmt->bindParam(":quantity", $quantity[$i]);
                                         //execute the query
                                         if ($stmt->execute()) {
@@ -109,7 +109,7 @@
                                 <td>Select Product ' . $x . '</td>
                                 <td>
                                 <div class="col">';
-                            echo "<select class='form_select' name='product[]' >";
+                            echo "<select class='form_select' name='productID[]' >";
                             echo '<option selected>Product ' . $x . '</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 extract($row);

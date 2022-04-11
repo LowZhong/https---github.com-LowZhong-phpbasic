@@ -27,7 +27,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT orderDetailsID, orderID, product, quantity  FROM order_details WHERE orderID = ? LIMIT 0,1";
+            $query = "SELECT orderDetailsID, orderID, productID, quantity  FROM order_details WHERE orderID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
             // this is the first question mark
             $stmt->bindParam(1, $orderDetailsID);
@@ -38,7 +38,7 @@
             // values to fill up our form
             $orderDetailsID = $row["orderDetailsID"];
             $orderID = $row["orderID"];
-            $product = $row["product"];
+            $productID = $row["productID"];
             $quantity = $row["quantity"];
             
         }
@@ -65,7 +65,7 @@
             </tr>
             <tr>
                 <td>product</td>
-                <td><?php echo htmlspecialchars($product, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($productID, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Quantity</td>

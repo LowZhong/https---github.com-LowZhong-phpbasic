@@ -49,6 +49,7 @@
                     // Execute the query
                     if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was saved.</div>";
+                        
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }
@@ -61,7 +62,7 @@
             } else {
                 foreach ($error as $value) {
                     echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
-                }
+                } 
             }
         }
 
