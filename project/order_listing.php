@@ -67,7 +67,7 @@
                 echo "<a href='order_details.php?orderID={$orderID}' class='btn btn-info m-r-1em'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='update.php?orderID={$orderID}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='order_update.php?orderID={$orderID}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
                 echo "<a href='#' onclick='delete_user({$orderID});'  class='btn btn-danger'>Delete</a>";
