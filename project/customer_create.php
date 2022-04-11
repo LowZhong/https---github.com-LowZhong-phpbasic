@@ -27,8 +27,8 @@
             //echo navBar();
             // posted values
             $username = $_POST['username'];
-            $password = $_POST['password'];
-            $inputconfirmPassword = $_POST['inputconfirmPassword'];
+            $password = md5($_POST['password']); //md5 encrypt
+            $inputconfirmPassword = md5($_POST['inputconfirmPassword']);
             $email = $_POST['email'];
             $firstname = $_POST['firstname'];
             $lastname = $_POST['lastname'];
@@ -41,6 +41,8 @@
             $stmt->execute([$username]);
             //fetch result
             $user = $stmt->fetch();
+            echo md5($_POST['password'])."</br>";
+            echo md5($_POST['inputconfirmPassword'])."</br>";
 
             //function
             $error['username'] = validateUsername($username); //array call function
@@ -138,9 +140,9 @@
                         $birthdate = date('d'); //current day
 
                         echo '<select id="day" name="day">' . "\n";
-                        for ($i_day = 1; $i_day <= 31; $i_day++) {
-                            $selected = ($birthdate == $i_day ? ' selected' : '');
-                            echo '<option value="' . $i_day . '"' . $selected . '>' . $i_day . '</option>' . "\n";
+                        for ($day = 1; $day <= 31; $day++) {
+                            $selected = ($birthdate == $day ? ' selected' : '');
+                            echo '<option value="' . $day . '"' . $selected . '>' . $day . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
                         ?>
@@ -150,9 +152,9 @@
                         $birthdate = date('m'); //current month
 
                         echo '<select id="month" name="month">' . "\n";
-                        for ($i_month = 1; $i_month <= 12; $i_month++) {
-                            $selected = ($birthdate == $i_month ? ' selected' : '');
-                            echo '<option value="' . $i_month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $i_month)) . '</option>' . "\n";
+                        for ($month = 1; $month <= 12; $month++) {
+                            $selected = ($birthdate == $month ? ' selected' : '');
+                            echo '<option value="' . $month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $month)) . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
                         if ((isset($_GET['month'])) && ($value))
@@ -161,13 +163,12 @@
                         <!--year-->
                         <?php
                     $year_start  = 2022;
-                    $year_end = date('Y'); // current Year
                     $birthdate = 2022;
 
                     echo '<select id="year" name="year">' . "\n";
-                    for ($i_year = $year_start; $i_year >= 1990; $i_year--) {
-                        $selected = ($birthdate == $i_year ? ' selected' : '');
-                        echo '<option value="' . $i_year . '"' . $selected . '>' . $i_year . '</option>' . "\n";
+                    for ($year = $year_start; $year >= 1990; $year--) {
+                        $selected = ($birthdate == $year ? ' selected' : '');
+                        echo '<option value="' . $year . '"' . $selected . '>' . $year . '</option>' . "\n";
                     }
                     echo '</select>' . "\n";
                         ?>

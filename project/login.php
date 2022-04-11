@@ -36,10 +36,13 @@
                 $stmt->bindParam(1, $login_username);
                 $stmt->execute();
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                echo $login_password."</br>";
+                echo $row['password']."</br>";
+                echo md5($login_password)."</br>";
                 
                 if ($stmt->rowCount() == 0) { //if find error
                     echo "<div class='alert alert-danger'>User Not Found</div>";
-                } else if ($login_password != $row['password']) {
+                } else if (md5($login_password) != $row['password']) {
                     echo "<div class='alert alert-danger'>Wrong Password</div>";
                 } else if ($row['status'] == "disabled"){
                     echo "<div class='alert alert-danger'>Account Disabled</div>";

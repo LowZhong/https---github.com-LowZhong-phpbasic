@@ -107,7 +107,7 @@
                 <td>Animal Year</td>
                 <td><?php animalYear($year); ?></td>
             </tr>
-            <a href='customer_read.php' class='btn btn-danger'>Back to read products</a>
+            <a href='customer_read.php' class='btn btn-danger'>Back to Customer List</a>
             </td>
             </tr>
         </table>

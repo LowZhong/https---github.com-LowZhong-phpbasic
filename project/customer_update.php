@@ -52,19 +52,20 @@
             $username = htmlspecialchars(strip_tags($_POST['username']));
             $email = htmlspecialchars(strip_tags($_POST['email']));
             $password = htmlspecialchars(strip_tags($_POST['password']));
-            //$inputconfirmPassword = htmlspecialchars(strip_tags($_POST['inputconfirmPassword']));
             $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
             $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
             $year = htmlspecialchars(strip_tags($_POST['year']));
             $gender = htmlspecialchars(strip_tags($_POST['gender']));
             $birthdate =  htmlspecialchars(strip_tags($_POST['year']))."-" . htmlspecialchars(strip_tags($_POST['month'])) . "-" . htmlspecialchars(strip_tags($_POST['day']));
+            echo $status = $_POST['status']."</br>";
+            echo $gender = $_POST['gender'];
 
 
             $error['username'] = validateUsername($username); //array call function
             $error['password'] = validateOrderPassword($password);
             $error['birthdate'] = validateAge($year, $birthdate);
             $error = array_filter($error);
-            echo $birthdate;
+
             if (empty($error)) {
                 try {
                     // write update query
@@ -130,7 +131,7 @@
                 die('ERROR: ' . $exception->getMessage());
             }
         ?>
-        
+
         <!-- HTML form to update record will be here -->
         <!--we have our html form here where new record information can be updated-->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?username={$username}"); ?>" method="post">
