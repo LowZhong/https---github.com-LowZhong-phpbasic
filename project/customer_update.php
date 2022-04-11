@@ -1,6 +1,3 @@
-<?php
-        
-        ?>
 <!DOCTYPE HTML>
 <html>
 
@@ -127,19 +124,13 @@
                 $dobmonth = $row['month'];
                 $dobday = $row['day'];
                 $status = $row['status'];
-                //$inputconfirmPassword = $row['inputconfirmPassword'];
-                
             }
-
-        
-
             // show error
             catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
             }
-            
-          
         ?>
+        
         <!-- HTML form to update record will be here -->
         <!--we have our html form here where new record information can be updated-->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?username={$username}"); ?>" method="post">
