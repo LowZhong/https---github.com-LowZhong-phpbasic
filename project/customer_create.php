@@ -4,6 +4,7 @@
 <head>
     <title>New Customer Sign In</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -22,6 +23,8 @@
             // include database connection
             include 'database/connection.php';
             include 'database/function.php';
+
+            //echo navBar();
             // posted values
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -51,7 +54,7 @@
 
                 try {
                     // insert query
-                    $query = "INSERT INTO customer SET username=:username, password=:password, email=:email, firstname=:firstname, lastname=:lastname, birthdate=:birthdate, gender=:gender, starsign=:starsign, status=:status";
+                    $query = "INSERT INTO customer SET username=:username, password=:password, email=:email, firstname=:firstname, lastname=:lastname, birthdate=:birthdate, gender=:gender";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
@@ -62,8 +65,8 @@
                     $stmt->bindParam(':lastname', $lastname);
                     $stmt->bindParam(':birthdate', $birthdate);
                     $stmt->bindParam(':gender', $gender);
-                    $stmt->bindParam(':status', $status);
-                    $stmt->bindParam(':starsign', $starsign);
+                    //$stmt->bindParam(':status', $status);
+                    //$stmt->bindParam(':starsign', $starsign);
                     // specify when this record was inserted to the database
 
                     // Execute the query

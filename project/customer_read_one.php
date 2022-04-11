@@ -27,7 +27,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year , status FROM customer WHERE username = ? ";
+            $query = "SELECT username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year, status FROM customer WHERE username = ? ";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -52,6 +52,8 @@
             $birthdate = "$year/$month/$day";
             $gender = $row['gender'];
             $status = $row['status'];
+            
+            
             
         }
 

@@ -18,7 +18,7 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $orderDetailsID = isset($_GET['orderDetailsID']) ? $_GET['orderDetailsID'] : die('ERROR: Record Order Detail ID not found.');
+        $orderDetailsID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record Order Detail ID not found.');
 
         //include database connection
         include 'database/connection.php';
@@ -27,7 +27,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT orderDetailsID, orderID, product, quantity FROM order_details WHERE orderID = ? LIMIT 0,1";
+            $query = "SELECT orderDetailsID, orderID, product, quantity  FROM order_details WHERE orderID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
             // this is the first question mark
             $stmt->bindParam(1, $orderDetailsID);
@@ -36,6 +36,11 @@
             // store retrieved row to a variable
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             // values to fill up our form
+            $orderDetailsID = $row["orderDetailsID"];
+            $orderID = $row["orderID"];
+            $product = $row["product"];
+            $quantity = $row["quantity"];
+            
         }
 
         // show error
@@ -67,9 +72,7 @@
                 <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
             </tr>
 
-            <td>Order Time</td>
-            <td><?php echo htmlspecialchars($orderTime, ENT_QUOTES);  ?></td>
-            </tr>
+            
             <a href='order_listing.php' class='btn btn-danger'>Back to order list</a>
             </td>
             </tr>

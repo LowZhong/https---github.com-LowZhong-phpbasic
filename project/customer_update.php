@@ -1,3 +1,6 @@
+<?php
+        
+        ?>
 <!DOCTYPE HTML>
 <html>
 
@@ -43,37 +46,99 @@
         include 'database/connection.php';
         include 'database/function.php';
 
+        //-- PHP post to update record will be here --
+     
+        // check if form was submitted
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            
+            // posted values 
+            $username = htmlspecialchars(strip_tags($_POST['username']));
+            $email = htmlspecialchars(strip_tags($_POST['email']));
+            $password = htmlspecialchars(strip_tags($_POST['password']));
+            //$inputconfirmPassword = htmlspecialchars(strip_tags($_POST['inputconfirmPassword']));
+            $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
+            $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
+            $year = htmlspecialchars(strip_tags($_POST['year']));
+            $gender = htmlspecialchars(strip_tags($_POST['gender']));
+            $birthdate =  htmlspecialchars(strip_tags($_POST['year']))."-" . htmlspecialchars(strip_tags($_POST['month'])) . "-" . htmlspecialchars(strip_tags($_POST['day']));
+
+
+            $error['username'] = validateUsername($username); //array call function
+            $error['password'] = validateOrderPassword($password);
+            $error['birthdate'] = validateAge($year, $birthdate);
+            $error = array_filter($error);
+            echo $birthdate;
+            if (empty($error)) {
+                try {
+                    // write update query
+                    $query = "UPDATE customer SET username=:username, email=:email, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, birthdate=:birthdate WHERE username = :username";
+                    // prepare query for excecution
+                    $stmt = $con->prepare($query);
+
+                    // bind the parameters
+                    $stmt->bindParam(':username', $username);
+                    $stmt->bindParam(':email', $email);
+                    $stmt->bindParam(':password', $password);
+                    $stmt->bindParam(':firstname', $firstname);
+                    $stmt->bindParam(':lastname', $lastname);
+                    $stmt->bindParam(':gender', $gender);
+                    $stmt->bindParam(':birthdate', $birthdate);
+
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was updated.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    }
+                }
+                // show errors
+                catch (PDOException $exception) {
+                    die('ERROR: ' . $exception->getMessage());
+                }
+            } else {
+                foreach ($error as $value) {
+                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
+                }
+            }
+        }
+
+    
         // read current record's data
-        try {
-            // prepare select query
-            $query = "SELECT username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year , status FROM customer WHERE username = ? ";
-            $stmt = $con->prepare($query);
+            try {
+                // prepare select query
+                $query = "SELECT username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year, status FROM customer WHERE username = ? ";
+                $stmt = $con->prepare($query);
 
-            // this is the first question mark
-            $stmt->bindParam(1, $user_name);
-            // execute our query
-            $stmt->execute();
-            // store retrieved row to a variable
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            // values to fill up our form
-            $username = $row['username'];
-            $email = $row['email'];
-            $password = $row['password'];
-            $firstname = $row['firstname'];
-            $lastname = $row['lastname'];
-            $gender = $row['gender'];
-            $lastname = $row['lastname'];
-            $year = $row['year'];
-            $month = $row['month'];
-            $day = $row['day'];
-            //$inputconfirmPassword = $row['inputconfirmPassword'];
-            $status = $row['status'];
-        }
+                // this is the first question mark
+                $stmt->bindParam(1, $user_name);
+                // execute our query
+                $stmt->execute();
+                // store retrieved row to a variable
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                // values to fill up our form
+                $username = $row['username'];
+                $email = $row['email'];
+                $password = $row['password'];
+                $firstname = $row['firstname'];
+                $lastname = $row['lastname'];
+                $gender = $row['gender'];
+                $lastname = $row['lastname'];
+                $dobyear = $row['year'];
+                $dobmonth = $row['month'];
+                $dobday = $row['day'];
+                $status = $row['status'];
+                //$inputconfirmPassword = $row['inputconfirmPassword'];
+                
+            }
 
-        // show error
-        catch (PDOException $exception) {
-            die('ERROR: ' . $exception->getMessage());
-        }
+        
+
+            // show error
+            catch (PDOException $exception) {
+                die('ERROR: ' . $exception->getMessage());
+            }
+            
+          
         ?>
         <!-- HTML form to update record will be here -->
         <!--we have our html form here where new record information can be updated-->
@@ -133,7 +198,7 @@
 
                         echo '<select id="day" name="day">' . "\n";
                         for ($day = 1; $day <= 31; $day++) {
-                            $selected = ($birthdate == $day ? ' selected' : '');
+                            $selected = ($dobday == $day ? ' selected' : '');
                             echo '<option value="' . $day . '"' . $selected . '>' . $day . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
@@ -144,7 +209,7 @@
 
                         echo '<select id="month" name="month">' . "\n";
                         for ($month = 1; $month <= 12; $month++) {
-                            $selected = ($birthdate == $month ? ' selected' : '');
+                            $selected = ($dobmonth == $month ? ' selected' : '');
                             echo '<option value="' . $month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $month)) . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
@@ -158,7 +223,7 @@
 
                         echo '<select id="year" name="year">' . "\n";
                         for ($year = $year_start; $year >= 1990; $year--) {
-                            $selected = ($birthdate == $year ? ' selected' : '');
+                            $selected = ($dobyear == $year ? ' selected' : '');
                             echo '<option value="' . $year . '"' . $selected . '>' . $year . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
@@ -168,69 +233,13 @@
                     <td></td>
                     <td>
                         <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='customer_read.php' class='btn btn-danger'>Back to read products</a>
+                        <a href='customer_read.php' class='btn btn-danger'>Back to Customer List</a>
                     </td>
                 </tr>
             </table>
         </form>
 
-        <!-- PHP post to update record will be here -->
-        <?php
-        $username = $firstname = $lastname = $password = $inputconfirmPassword = $birthdate = $gender = $status = $starsign = $email = "";
-        // check if form was submitted
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            
-            // posted values 
-            $username = htmlspecialchars(strip_tags($_POST['username']));
-            $email = htmlspecialchars(strip_tags($_POST['email']));
-            $password = htmlspecialchars(strip_tags($_POST['password']));
-            //$inputconfirmPassword = htmlspecialchars(strip_tags($_POST['inputconfirmPassword']));
-            $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
-            $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
-            $year = htmlspecialchars(strip_tags($_POST['year']));
-            $gender = htmlspecialchars(strip_tags($_POST['gender']));
-            $birthdate = htmlspecialchars(strip_tags($_POST['day'])) . "." . htmlspecialchars(strip_tags($_POST['month'])) . "." . htmlspecialchars(strip_tags($_POST['year']));
-
-
-            $error['username'] = validateUsername($username); //array call function
-            $error['password'] = validateOrderPassword($password);
-            $error['birthdate'] = validateAge($year, $birthdate);
-            $error = array_filter($error);
-
-            if (empty($error)) {
-                try {
-                    // write update query
-                    $query = "UPDATE customer SET username=:username, email=:email, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, birthdate=:birthdate WHERE username = :username";
-                    // prepare query for excecution
-                    $stmt = $con->prepare($query);
-
-                    // bind the parameters
-                    $stmt->bindParam(':username', $username);
-                    $stmt->bindParam(':email', $email);
-                    $stmt->bindParam(':password', $password);
-                    $stmt->bindParam(':firstname', $firstname);
-                    $stmt->bindParam(':lastname', $lastname);
-                    $stmt->bindParam(':gender', $gender);
-                    $stmt->bindParam(':birthdate', $birthdate);
-
-                    // Execute the query
-                    if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Record was updated.</div>";
-                    } else {
-                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
-                    }
-                }
-                // show errors
-                catch (PDOException $exception) {
-                    die('ERROR: ' . $exception->getMessage());
-                }
-            } else {
-                foreach ($error as $value) {
-                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
-                }
-            }
-        }
-        ?>
+        
 
 
     </div>

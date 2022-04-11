@@ -27,50 +27,61 @@
             $product = $_POST['product'];
             $quantity = $_POST['quantity'];
             print_r($product);
-            print_r($product);
-            //$error['username'] = validateUsername($username);
-            //$error = array_filter($error);
 
-            try {
-                // insert query
-                $query = "INSERT INTO order_summary (username) VALUES (?)";
-                // prepare query for execution
-                $stmt = $con->prepare($query);
-                // bind the parameters
-                $stmt->bindParam(1, $username);
-                // Execute the query
-                if ($stmt->execute()) {
-                    $last_order_id = $con->lastInsertId();
-                    if ($last_order_id > 0) {
 
-                        foreach( $product as $pkey){
-                            echo $pkey;
+            $error['username'] = validateUsername($username);
+            $error = array_filter($error);
+            if(empty($error)) {
 
-                        
-                            try {
-                                $query = "INSERT INTO order_details (orderID, product, quantity) VALUES (?,?,?)";
+            
+                try {
+                    // insert query
+                    $query = "INSERT INTO order_summary (username) VALUES (?)";
+                    // prepare query for execution
+                    $stmt = $con->prepare($query);
+                    // bind the parameters
+                    $stmt->bindParam(1, $username);
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        $last_order_id = $con->lastInsertId();
+                        if ($last_order_id > 0) {
 
-                                //prepare query for execute
-                                $stmt = $con->prepare($query);
-                                //posted values
-                                $stmt->bindParam(1, $last_order_id);
-                                $stmt->bindParam(2, $product);
-                                $stmt->bindParam(3, $quantity[$pkey]);
-                                //execute the query
-                                if ($stmt->execute()) {
-                                   
+                            //foreach( $product as $pkey){
+                                //echo $pkey;
+
+                                for ($i = 0; $i < count($product); $i++) {
+
+                                    
+                                    try {
+                                        $query = "INSERT INTO order_details (orderID, product, quantity) VALUES (:lastorderid, :product, :quantity)";
+
+                                        //prepare query for execute
+                                        $stmt = $con->prepare($query);
+                                        //posted values
+                                        $stmt->bindParam(":lastorderid", $last_order_id);
+                                        $stmt->bindParam(":product", $product[$i]);
+                                        $stmt->bindParam(":quantity", $quantity[$i]);
+                                        //execute the query
+                                        if ($stmt->execute()) {
+                                        
+                                        }
+                                    } catch (PDOException $exception) {
+                                        die('ERROR: ' . $exception->getMessage());
+                                    }
                                 }
-                            } catch (PDOException $exception) {
-                                die('ERROR: ' . $exception->getMessage());
-                            }
-                        }
-                    } 
-                    echo "<div class='alert alert-success'>Record was saved.</div>";
-                } else {
-                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                            //}
+                        } 
+                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    }
+                } catch (PDOException $exception) {
+                    die('ERROR: ' . $exception->getMessage());
                 }
-            } catch (PDOException $exception) {
-                die('ERROR: ' . $exception->getMessage());
+            } else {
+                foreach ($error as $value) {
+                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
+                }
             }
         }
 
@@ -98,16 +109,16 @@
                                 <td>Select Product ' . $x . '</td>
                                 <td>
                                 <div class="col">';
-                            echo "<select class='form_select' name='product[]" . $x . "' value='" . $product . "'>";
+                            echo "<select class='form_select' name='product[]' >";
                             echo '<option selected>Product ' . $x . '</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 extract($row);
-                                echo "<option value='" . $id . "'>" . $name . "</option>";
+                                echo "<option value='" . $id . "' >" . $name . "</option>";
                             }
                             echo "</select>
                             </div>
                                 Quantity
-                                <input type='number' name='quantity[]" . $x . "' class='form-control' value='" . $quantity . "' />";
+                                <input type='number' name='quantity[]' class='form-control' value='" . $quantity[$x] . "' />";
                         }
                         // show error
                         catch (PDOException $exception) {
