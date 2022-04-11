@@ -88,6 +88,8 @@ function validateStatus($status)
     }
 }
 
+
+
 // customer_read function
 function starsign($month, $day)
 {
@@ -133,6 +135,8 @@ function sex($gender)
         return "<img src='images/male_symbol.png' width=30 alt='male'/>";
     } else {
         return "<img src='images/female_symbol.png' width=30 alt='female'/>";
+    } if (empty($_POST["gender"])) {
+        return 'Please Select Your gender.';
     }
 }
 
@@ -151,11 +155,4 @@ function test_input($data)
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
-}
-
-function orderproduct($product1, $product2, $product3)
-{
-    if ($product1 . $product2 . $product3 = null) {
-        return 'Please fill up the Product';
-    }
 }
