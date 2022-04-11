@@ -36,10 +36,56 @@
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
         $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
+        $name = $description = $price = "";
 
         //include database connection
         include 'database/connection.php';
         include 'database/function.php';
+
+        // check if form was submitted
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            // posted values
+            $name = htmlspecialchars(strip_tags($_POST['name']));
+            $description = htmlspecialchars(strip_tags($_POST['description']));
+            $price = htmlspecialchars(strip_tags($_POST['price']));
+
+            $error['name'] = validatename($name);
+            $error['price'] = validatePrice($price);
+            $error = array_filter($error);
+
+            if (empty($error)) {
+
+                try {
+                    // write update query
+                    // in this case, it seemed like we have so many fields to pass and
+                    // it is better to label them and not use question marks
+                    $query = "UPDATE products SET name=:name, description=:description, price=:price WHERE id = :id";
+                    // prepare query for excecution
+                    $stmt = $con->prepare($query);
+
+                    // bind the parameters
+                    $stmt->bindParam(':name', $name);
+                    $stmt->bindParam(':description', $description);
+                    $stmt->bindParam(':price', $price);
+                    $stmt->bindParam(':id', $id);
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was updated.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    }
+                }
+                // show errors
+                catch (PDOException $exception) {
+                    die('ERROR: ' . $exception->getMessage());
+                }
+            } else {
+                foreach ($error as $value) {
+                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
+                }
+            }
+        }
 
         // read current record's data
         try {
@@ -93,55 +139,6 @@
             </table>
         </form>
 
-        <!-- PHP post to update record will be here -->
-        <?php
-        $name = $description = $price = "";
-        // check if form was submitted
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            
-            // posted values
-            $name = htmlspecialchars(strip_tags($_POST['name']));
-            $description = htmlspecialchars(strip_tags($_POST['description']));
-            $price = htmlspecialchars(strip_tags($_POST['price']));
-
-            $error['name'] = validatename($name);
-            $error['price'] = validatePrice($price);
-            $error = array_filter($error);
-
-            if (empty($error)) {
-
-                try {
-                    // write update query
-                    // in this case, it seemed like we have so many fields to pass and
-                    // it is better to label them and not use question marks
-                    $query = "UPDATE products SET name=:name, description=:description, price=:price WHERE id = :id";
-                    // prepare query for excecution
-                    $stmt = $con->prepare($query);
-
-                    // bind the parameters
-                    $stmt->bindParam(':name', $name);
-                    $stmt->bindParam(':description', $description);
-                    $stmt->bindParam(':price', $price);
-                    $stmt->bindParam(':id', $id);
-                    // Execute the query
-                    if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Record was updated.</div>";
-                    } else {
-                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
-                    }
-                }
-                // show errors
-                catch (PDOException $exception) {
-                    die('ERROR: ' . $exception->getMessage());
-                }
-            } else {
-                foreach ($error as $value) {
-                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
-                }
-            }
-        }
-
-        ?>
 
     </div>
     <!-- end .container -->
